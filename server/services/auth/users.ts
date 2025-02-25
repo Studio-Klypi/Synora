@@ -3,6 +3,7 @@ import { HttpCode } from "~/types/generics/requests";
 import type { INewUserPayload } from "~/types/auth/users";
 import { UserConflictError } from "~/types/auth/users";
 import * as usrRepo from "~/server/database/repositories/auth/users";
+import * as sessionService from "~/server/services/auth/sessions";
 import * as errorService from "~/server/services/generics/errors";
 
 export async function registerUser(req: HttpRequest) {
@@ -10,7 +11,7 @@ export async function registerUser(req: HttpRequest) {
 
   try {
     const user = await usrRepo.create(payload);
-    // TODO: create session
+    await sessionService.createAuthSession(req, user.uuid);
     // TODO: send welcome email
 
     req.node.res.statusCode = HttpCode.CREATED;
