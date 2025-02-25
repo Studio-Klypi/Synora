@@ -1,0 +1,23 @@
+Table User {
+  uuid uuid pk
+  password string
+
+  firstname string
+  lastname string
+
+  email string unique
+  phone string [null]
+  address string
+
+  createdAt datetime
+  updatedAt datetime
+  deletedAt datetime [null]
+}
+
+Table AuthSession {
+  token uuid pk
+  userUuid uuid pk [ref: < User.uuid]
+  createdAt datetime
+  expiresAt datetime
+  revokedAt datetime [null]
+}
