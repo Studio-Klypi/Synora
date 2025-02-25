@@ -1,0 +1,57 @@
+{
+  "name": "synora",
+  "version": "a0.0.0",
+  "private": true,
+  "license": "CC-BY-NC-ND 4.0",
+  "type": "module",
+  "engines": {
+    "node": ">= 22"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
+  "repository": {
+    "url": "https://github.com/studio-klypi/Synora"
+  },
+  "bugs": {
+    "url": "https://githuB.com/studio-klypi/Synora/issues",
+    "email": "contact@studio-klypi.com"
+  },
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev --host",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint": "eslint . --fix",
+    "db:studio": "prisma studio",
+    "db:migrate": "prisma migrate dev --name",
+    "db:seed": "prisma db seed"
+  },
+  "dependencies": {
+    "@nuxt/eslint": "1.1.0",
+    "@nuxtjs/color-mode": "3.5.2",
+    "@nuxtjs/google-fonts": "3.2.0",
+    "@nuxtjs/i18n": "9.2.1",
+    "@nuxtjs/tailwindcss": "6.13.1",
+    "@pinia/nuxt": "0.10.1",
+    "@prisma/client": "^6.4.1",
+    "@tanstack/vue-table": "^8.21.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "eslint": "^9.21.0",
+    "lucide-vue-next": "^0.476.0",
+    "nuxt": "^3.15.4",
+    "pinia": "^3.0.1",
+    "reka-ui": "^2.0.0",
+    "shadcn-nuxt": "1.0.1",
+    "tailwind-merge": "^3.0.2",
+    "tailwindcss-animate": "^1.0.7",
+    "vue": "latest",
+    "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.5",
+    "prisma": "^6.4.1",
+    "typescript": "^5.7.3",
+    "vite-plugin-eslint2": "^5.0.3"
+  }
+}
