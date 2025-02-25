@@ -15,6 +15,9 @@
     "url": "https://githuB.com/studio-klypi/Synora/issues",
     "email": "contact@studio-klypi.com"
   },
+  "prisma": {
+    "schema": "server/database/schema.prisma"
+  },
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev --host",
