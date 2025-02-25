@@ -10,15 +10,19 @@ datasource db {
 // MODELS
 // > Authentication
 model User {
-  uuid      String  @id @default(uuid())
+  uuid      String    @id @default(uuid())
   // auth
   phone     String?
-  email     String  @unique
+  email     String    @unique
   password  String
   // info
   firstName String
   lastName  String
   address   String
+  // dates
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
   authSession AuthSession[]
 
