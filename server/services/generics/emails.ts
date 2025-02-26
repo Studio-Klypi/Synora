@@ -13,7 +13,7 @@ const transporter = () => {
     },
     host: mailerHost,
     port: Number(mailerPort),
-    secure: mailerSecure === "true",
+    secure: true,
   });
 };
 
@@ -26,7 +26,7 @@ export async function send(payload: IEmailSendRequest) {
   const { sendMail } = useMailer();
   const { mailerFromEmail, mailerFromName } = useRuntimeConfig();
 
-  const id = uuidv4();
+  const id = uuidv4().replaceAll("-", "");
 
   return sendMail({
     requestId: id,
@@ -40,5 +40,5 @@ export async function send(payload: IEmailSendRequest) {
       html: payload.template.body.html,
       attachments: payload.attachments ?? payload.template.attachments ?? undefined,
     },
-  });
+  }).catch(e => console.error(e, id));
 }
