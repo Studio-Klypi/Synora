@@ -5,5 +5,5 @@ export default defineNuxtRouteMiddleware((to) => {
   if (to.meta.noAuth && me.value) return navigateTo(useLocalePath()("/portal"));
 
   if (!to.meta.authRequired) return;
-  if (!me.value) return navigateTo(useLocalePath()("/portal/auth/register")); // TODO: update to login page
+  if (!me.value) return navigateTo(useLocalePath()("/portal/auth/login"));
 });

@@ -163,19 +163,30 @@ const submit = form.handleSubmit(async ({ firstName, lastName, address, email, p
         </FormField>
       </CardContent>
 
-      <CardFooter class="flex flex-col items-stretch gap-2 sm:flex-row sm:justify-between sm:items-center">
+      <CardFooter class="flex flex-col items-stretch gap-3">
         <p class="text-muted-foreground italic text-sm">
           {{ t("register.actions.terms") }}
         </p>
 
-        <Button
-          class="shrink-0"
-          :disabled="loading"
-        >
-          <LoaderCircle v-if="loading" />
-          <UserPlus v-else />
-          {{ t("register.actions.createAccount") }}
-        </Button>
+        <div class="flex flex-col gap-1 sm:flex-row sm:justify-between sm:items-center">
+          <Button
+            variant="link"
+            class="sm:-ml-4"
+            as-child
+          >
+            <NuxtLinkLocale to="/portal/auth/login">
+              {{ t("register.actions.alreadyRegistered") }}
+            </NuxtLinkLocale>
+          </Button>
+          <Button
+            class="shrink-0"
+            :disabled="loading"
+          >
+            <LoaderCircle v-if="loading" />
+            <UserPlus v-else />
+            {{ t("register.actions.createAccount") }}
+          </Button>
+        </div>
       </CardFooter>
     </form>
   </Card>

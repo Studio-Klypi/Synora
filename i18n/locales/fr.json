@@ -58,7 +58,24 @@
     },
     "actions": {
       "terms": "En créant mon compte, vous acceptez nos Conditions d'utilisations.",
-      "createAccount": "Créer mon compte"
+      "createAccount": "Créer mon compte",
+      "alreadyRegistered": "J'ai déjà un compte"
+    }
+  },
+  "login": {
+    "tab": "Me connecter à mon compte {name}",
+    "title": "Connexion",
+    "fields": {
+      "email": {
+        "label": "Adresse e-mail"
+      },
+      "password": {
+        "label": "Mot de passe"
+      }
+    },
+    "actions": {
+      "needAnAccount": "Je n'ai pas de compte",
+      "loginAccount": "Me connecter"
     }
   }
 }

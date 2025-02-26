@@ -1,4 +1,4 @@
-import type { INewUserPayload, IUser, UserState } from "~/types/auth/users";
+import type { INewUserPayload, IUser, IUserLoginPayload, UserState } from "~/types/auth/users";
 
 export const useUserStore = defineStore("user", {
   state: (): UserState => ({
@@ -27,6 +27,24 @@ export const useUserStore = defineStore("user", {
 
       try {
         this.me = await $fetch<IUser>("/api/users/create", {
+          method: "POST",
+          body: payload,
+        });
+        await navigateTo(useLocalePath()("/portal"));
+      }
+      catch (e) {
+        // TODO: toast
+        console.error(e);
+      }
+      finally {
+        this.loading = false;
+      }
+    },
+    async loginUser(payload: IUserLoginPayload) {
+      this.loading = true;
+
+      try {
+        this.me = await $fetch<IUser>("/api/users/login", {
           method: "POST",
           body: payload,
         });
