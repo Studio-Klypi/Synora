@@ -4,7 +4,7 @@ import { useMailer } from "#mailer";
 
 const transporter = () => {
   const { customTransporter } = useMailer();
-  const { mailerHost, mailerPort, mailerUser, mailerPass, mailerSecure } = useRuntimeConfig();
+  const { mailerHost, mailerPort, mailerUser, mailerPass } = useRuntimeConfig();
 
   return customTransporter({
     auth: {
