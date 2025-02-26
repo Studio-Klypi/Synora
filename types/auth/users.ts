@@ -1,5 +1,10 @@
 import { DatabaseConflictError, EntityNotFoundError } from "~/types/generics/errors";
 
+export interface UserState {
+  me: IUser | null;
+  loading: boolean;
+}
+
 export interface IBackUser {
   uuid: string;
   phone?: string | null;
