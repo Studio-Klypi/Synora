@@ -5,6 +5,10 @@
 <template>
   <div>
     <p>{{ $t("welcome") }}</p>
-    <Button>{{ $t("join-us") }}</Button>
+    <Button as-child>
+      <NuxtLinkLocale to="/portal/auth/register">
+        {{ $t("join-us") }}
+      </NuxtLinkLocale>
+    </Button>
   </div>
 </template>

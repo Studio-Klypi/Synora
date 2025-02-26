@@ -1,4 +1,65 @@
 {
   "welcome": "Bienvenue sur Synora",
-  "join-us": "Rejoins-nous"
+  "join-us": "Rejoins-nous",
+  "brand": {
+    "name": "Synora"
+  },
+  "errors": {
+    "fields": {
+      "required": "Le champ est requis."
+    }
+  },
+  "labels": {
+    "fields": {
+      "optional": "(facultatif)"
+    }
+  },
+  "btn": {
+    "backToHome": "Retour au site"
+  },
+  "links": {
+    "tou": "Conditions d'Utilisation",
+    "policies": "Mentions légales"
+  },
+  "register": {
+    "tab": "Créer mon compte {name}",
+    "title": "Inscription",
+    "fields": {
+      "firstName": {
+        "label": "Prénom",
+        "error": "Veuillez entrer un prénom valide."
+      },
+      "lastName": {
+        "label": "Nom",
+        "error": "Veuillez entrer un nom de famille valide."
+      },
+      "address": {
+        "label": "Adresse postale",
+        "error": "Veuillez entrer au moins 1 caractère."
+      },
+      "email": {
+        "label": "Adresse e-mail",
+        "error": "Veuillez entrer une adresse e-mail valide."
+      },
+      "phone": {
+        "label": "Numéro de téléphone",
+        "error": "Veuillez entrer un numéro de téléphone valide."
+      },
+      "password": {
+        "label": "Mot de passe",
+        "error": "Le mot de passe n'est pas assez fort."
+      },
+      "confirm": {
+        "label": "Confirmation",
+        "errors": {
+          "regex": "Le mot de passe n'est pas assez fort.",
+          "no-match": "Les mots de passe ne correspondent pas."
+        }
+      }
+    },
+    "actions": {
+      "terms": "En créant mon compte, vous acceptez nos Conditions d'utilisations.",
+      "createAccount": "Créer mon compte"
+    }
+  }
 }
