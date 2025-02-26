@@ -30,6 +30,19 @@ export async function create(payload: INewUserPayload): Promise<IUser> {
     }
   }
 }
+export async function updatePassword(uuid: string, password: string): Promise<IUser> {
+  const user = await prisma.user.update({
+    where: {
+      uuid,
+      deletedAt: null,
+    },
+    data: {
+      password: await hash(password),
+    },
+  });
+  if (!user) throw new UserNotFoundError();
+  return purify(user);
+}
 
 /**
  * TODO:

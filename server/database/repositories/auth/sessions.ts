@@ -44,3 +44,20 @@ export async function verify(payload: IAuthSessionCookies): Promise<IBackAuthSes
   if (!session) throw new AuthSessionNotFoundError();
   return session;
 }
+
+export async function logoutTotally(uuid: string) {
+  const now = new Date();
+
+  await prisma.authSession.updateMany({
+    where: {
+      userUuid: uuid,
+      expiresAt: {
+        gt: now,
+      },
+      revokedAt: null,
+    },
+    data: {
+      revokedAt: now,
+    },
+  });
+}

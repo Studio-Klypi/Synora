@@ -7,6 +7,7 @@ import * as usrRepo from "~/server/database/repositories/auth/users";
 import * as sessionService from "~/server/services/auth/sessions";
 import * as reqService from "~/server/services/auth/userRequests";
 import * as errorService from "~/server/services/generics/errors";
+import { UserRequestNotFoundError } from "~/types/auth/userRequests";
 
 export async function registerUser(req: HttpRequest) {
   const payload = await readBody<INewUserPayload>(req);
@@ -56,7 +57,7 @@ export async function requestPasswordReset(req: HttpRequest) {
   try {
     const { email } = await readBody<{ email: string }>(req);
     const user = await usrRepo.getByEmail(email);
-    const request = await reqService.createRequest(req, {
+    const request = await reqService.createRequest({
       userUuid: user.uuid,
       type: "password",
     });
@@ -66,5 +67,40 @@ export async function requestPasswordReset(req: HttpRequest) {
   }
   finally {
     req.node.res.statusCode = HttpCode.CREATED;
+  }
+}
+export async function resetPassword(req: HttpRequest) {
+  const userUuid = getRouterParam(req, "uuid");
+  if (!userUuid) return errorService.throwError(req, {
+    code: HttpCode.BAD_REQUEST,
+    message: "Missing user uuid!",
+  });
+
+  try {
+    const { code, password } = await readBody<{
+      code: string;
+      password: string;
+    }>(req);
+    const uuid = await reqService.getUserUuid({
+      code,
+      userUuid,
+      type: "password",
+    });
+
+    const user = await usrRepo.updatePassword(uuid, password);
+    await sessionService.logout(req, uuid);
+
+    // TODO: send mail
+    console.log(user);
+
+    req.node.res.statusCode = HttpCode.ACCEPTED;
+    return user;
+  }
+  catch (e) {
+    if (e instanceof UserRequestNotFoundError) return errorService.throwError(req, {
+      code: HttpCode.NOT_FOUND,
+      message: "Invalid request credentials provided!",
+    });
+    return errorService.throwError(req, { stack: JSON.stringify(e) });
   }
 }
