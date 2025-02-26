@@ -1,3 +1,5 @@
+import { EntityNotFoundError } from "~/types/generics/errors";
+
 export interface IBackAuthSession {
   token: string;
   userUuid: string;
@@ -12,3 +14,5 @@ export interface IAuthSessionCookies {
   token: string;
   uuid: string;
 }
+
+export class AuthSessionNotFoundError extends EntityNotFoundError {}
