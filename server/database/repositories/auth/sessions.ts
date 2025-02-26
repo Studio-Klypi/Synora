@@ -18,6 +18,10 @@ export async function getRelatedUser(payload: IAuthSessionCookies): Promise<IBac
         token: payload.token,
         userUuid: payload.uuid,
       },
+      expiresAt: {
+        gt: new Date(),
+      },
+      revokedAt: null,
     },
   }).user();
   if (!user) throw new AuthSessionNotFoundError();
@@ -31,6 +35,10 @@ export async function verify(payload: IAuthSessionCookies): Promise<IBackAuthSes
         token: payload.token,
         userUuid: payload.uuid,
       },
+      expiresAt: {
+        gt: new Date(),
+      },
+      revokedAt: null,
     },
   });
   if (!session) throw new AuthSessionNotFoundError();
