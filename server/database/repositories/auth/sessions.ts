@@ -20,7 +20,6 @@ export async function getRelatedUser(payload: IAuthSessionCookies): Promise<IBac
       },
     },
   }).user();
-  console.log(user);
   if (!user) throw new AuthSessionNotFoundError();
   return user;
 }
