@@ -7,6 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ENUMS
+// > Authentication
+enum UserRequestType {
+  password
+}
+
 // MODELS
 // > Authentication
 model User {
@@ -25,6 +31,7 @@ model User {
   deletedAt DateTime?
 
   authSession AuthSession[]
+  requests    UserRequest[]
 
   @@map("users")
 }
@@ -40,4 +47,18 @@ model AuthSession {
 
   @@id([token, userUuid])
   @@map("auth_sessions")
+}
+
+model UserRequest {
+  code        String          @default(uuid())
+  userUuid    String
+  type        UserRequestType
+  requestedAt DateTime        @default(now())
+  expiresAt   DateTime
+  usedAt      DateTime?
+
+  user User @relation(fields: [userUuid], references: [uuid], onDelete: Cascade)
+
+  @@id([code, userUuid])
+  @@map("user_requests")
 }

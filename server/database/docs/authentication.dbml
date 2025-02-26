@@ -1,12 +1,16 @@
+Enum UserRequestType {
+  password
+}
+
 Table User {
   uuid uuid pk
+
+  email string unique
+  phone string [null]
   password string
 
   firstname string
   lastname string
-
-  email string unique
-  phone string [null]
   address string
 
   createdAt datetime
@@ -20,4 +24,13 @@ Table AuthSession {
   createdAt datetime
   expiresAt datetime
   revokedAt datetime [null]
+}
+
+Table UserRequest {
+  code uuid pk
+  userUuid uuid pk [ref: < User.uuid]
+  type UserRequestType
+  requestedAt datetime
+  expiresAt datetime
+  usedAt datetime [null]
 }
