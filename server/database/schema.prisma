@@ -30,8 +30,9 @@ model User {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  authSession AuthSession[]
-  requests    UserRequest[]
+  authSession    AuthSession[]
+  requests       UserRequest[]
+  companyMembers CompanyMember[]
 
   @@map("users")
 }
@@ -61,4 +62,54 @@ model UserRequest {
 
   @@id([code, userUuid])
   @@map("user_requests")
+}
+
+// > Companies
+model Company {
+  uuid          String   @id @default(uuid())
+  name          String
+  email         String
+  phone         String?
+  address       String
+  corporateName String
+  siret         String?
+  siren         String?
+  dateOfBirth   DateTime
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  roles   Role[]
+  members CompanyMember[]
+
+  @@map("companies")
+}
+
+model Role {
+  id          Int      @id @default(autoincrement())
+  companyUuid String
+  name        String
+  permissions String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  company Company         @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
+  members CompanyMember[]
+
+  @@unique([companyUuid, name])
+  @@map("roles")
+}
+
+model CompanyMember {
+  userUuid    String
+  companyUuid String
+  roleId      Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user    User    @relation(fields: [userUuid], references: [uuid], onDelete: Cascade)
+  company Company @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
+  role    Role?   @relation(fields: [roleId], references: [id], onDelete: SetNull)
+
+  @@id([userUuid, companyUuid])
+  @@map("company_members")
 }
