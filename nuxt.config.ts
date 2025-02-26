@@ -8,10 +8,23 @@ export default defineNuxtConfig({
     "@nuxtjs/google-fonts",
     "@pinia/nuxt",
     "shadcn-nuxt",
+    "nuxt-scheduler",
+    "nuxt-mailer",
   ],
   devtools: { enabled: true },
   colorMode: {
     classSuffix: "",
+  },
+  runtimeConfig: {
+    mailerUser: "",
+    mailerPass: "",
+    mailerHost: "",
+    mailerPort: "",
+    mailerFromEmail: "",
+    mailerFromName: "",
+    public: {
+      appUrl: "",
+    },
   },
   compatibilityDate: "2024-11-01",
   eslint: {
