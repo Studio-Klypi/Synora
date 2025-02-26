@@ -27,21 +27,21 @@ const schema = toTypedSchema(z.object({
   }).regex(NAME_REGEX, t("register.fields.lastName.error")).transform(val => val.toUpperCase()),
   address: z.string({
     message: t("errors.fields.required"),
-  }).min(1, t("register.fields.address.error")),
+  }).min(1, t("errors.fields.address")),
   email: z.string({
     message: t("errors.fields.required"),
   }).email({
-    message: t("register.fields.email.error"),
+    message: t("errors.fields.email"),
   }),
-  phone: z.string().regex(PHONE_REGEX, t("register.fields.phone.error")).optional(),
+  phone: z.string().regex(PHONE_REGEX, t("errors.fields.phone")).optional(),
   credentials: z.object({
     password: z.string({
       message: t("errors.fields.required"),
-    }).regex(PASSWORD_REGEX, t("register.fields.password.error")),
+    }).regex(PASSWORD_REGEX, t("errors.fields.password.regex")),
     confirm: z.string({
       message: t("errors.fields.required"),
-    }).regex(PASSWORD_REGEX, t("register.fields.confirm.errors.regex")),
-  }).refine(val => val.password === val.confirm, t("register.fields.confirm.errors.no-match")),
+    }).regex(PASSWORD_REGEX, t("errors.fields.password.regex")),
+  }).refine(val => val.password === val.confirm, t("errors.fields.password.no-match")),
 }));
 const form = useForm({
   validationSchema: schema,

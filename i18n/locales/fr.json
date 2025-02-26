@@ -6,6 +6,13 @@
   },
   "errors": {
     "fields": {
+      "address": "Veuillez entrer au moins 1 caractère.",
+      "email": "Veuillez entrer une adresse e-mail valide.",
+      "phone": "Le mot de passe n'est pas assez fort.",
+      "password": {
+        "regex": "Le mot de passe n'est pas assez fort.",
+        "no-match": "Les mots de passe ne correspondent pas."
+      },
       "required": "Le champ est requis."
     }
   },
@@ -34,27 +41,19 @@
         "error": "Veuillez entrer un nom de famille valide."
       },
       "address": {
-        "label": "Adresse postale",
-        "error": "Veuillez entrer au moins 1 caractère."
+        "label": "Adresse postale"
       },
       "email": {
-        "label": "Adresse e-mail",
-        "error": "Veuillez entrer une adresse e-mail valide."
+        "label": "Adresse e-mail"
       },
       "phone": {
-        "label": "Numéro de téléphone",
-        "error": "Veuillez entrer un numéro de téléphone valide."
+        "label": "Numéro de téléphone"
       },
       "password": {
-        "label": "Mot de passe",
-        "error": "Le mot de passe n'est pas assez fort."
+        "label": "Mot de passe"
       },
       "confirm": {
-        "label": "Confirmation",
-        "errors": {
-          "regex": "Le mot de passe n'est pas assez fort.",
-          "no-match": "Les mots de passe ne correspondent pas."
-        }
+        "label": "Confirmation"
       }
     },
     "actions": {
