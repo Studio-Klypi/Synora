@@ -1,4 +1,4 @@
-import { DatabaseConflictError } from "~/types/generics/errors";
+import { DatabaseConflictError, EntityNotFoundError } from "~/types/generics/errors";
 
 export interface IBackUser {
   uuid: string;
@@ -14,6 +14,9 @@ export interface IBackUser {
 }
 export type IUser = Omit<IBackUser, "password">;
 
+export type IUserLoginPayload = Pick<IBackUser, "email" | "password">;
+
 export type INewUserPayload = Omit<IBackUser, "uuid" | "createdAt" | "updatedAt" | "deletedAt">;
 
 export class UserConflictError extends DatabaseConflictError {}
+export class UserNotFoundError extends EntityNotFoundError {}

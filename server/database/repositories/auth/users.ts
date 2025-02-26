@@ -1,8 +1,8 @@
 import type { Prisma } from "@prisma/client";
 import { hash } from "argon2";
 import type { IBackUser, INewUserPayload, IUser } from "~/types/auth/users";
+import { UserNotFoundError, UserConflictError } from "~/types/auth/users";
 import prisma from "~/server/database";
-import { UserConflictError } from "~/types/auth/users";
 
 export function purify(user: IBackUser): IUser {
   const partial = { ...user } as Partial<IBackUser>;
@@ -34,5 +34,13 @@ export async function create(payload: INewUserPayload): Promise<IUser> {
 /**
  * TODO:
  * - export async function get(uuid: string): Promise<IBackUser> {}
- * - export async function getByEmail(email: string): Promise<IBackUser> {}
  */
+export async function getByEmail(email: string): Promise<IBackUser> {
+  const user = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+  if (!user) throw new UserNotFoundError();
+  return user;
+}
