@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ENUMS
+// > Authentication
+enum UserRequestType {
+  password
+}
+
+// MODELS
+// > Authentication
+model User {
+  uuid      String    @id @default(uuid())
+  // auth
+  phone     String?
+  email     String    @unique
+  password  String
+  // info
+  firstName String
+  lastName  String
+  address   String
+  // dates
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  authSession AuthSession[]
+  requests    UserRequest[]
+
+  @@map("users")
+}
+
+model AuthSession {
+  token     String    @default(uuid())
+  userUuid  String
+  createdAt DateTime  @default(now())
+  expiresAt DateTime
+  revokedAt DateTime?
+
+  user User @relation(fields: [userUuid], references: [uuid], onDelete: Cascade)
+
+  @@id([token, userUuid])
+  @@map("auth_sessions")
+}
+
+model UserRequest {
+  code        String          @default(uuid())
+  userUuid    String
+  type        UserRequestType
+  requestedAt DateTime        @default(now())
+  expiresAt   DateTime
+  usedAt      DateTime?
+
+  user User @relation(fields: [userUuid], references: [uuid], onDelete: Cascade)
+
+  @@id([code, userUuid])
+  @@map("user_requests")
+}

@@ -1,4 +1,105 @@
 {
   "welcome": "Bienvenue sur Synora",
-  "join-us": "Rejoins-nous"
+  "join-us": "Rejoins-nous",
+  "brand": {
+    "name": "Synora"
+  },
+  "errors": {
+    "fields": {
+      "address": "Veuillez entrer au moins 1 caractère.",
+      "email": "Veuillez entrer une adresse e-mail valide.",
+      "phone": "Le mot de passe n'est pas assez fort.",
+      "password": {
+        "regex": "Le mot de passe n'est pas assez fort.",
+        "no-match": "Les mots de passe ne correspondent pas."
+      },
+      "required": "Le champ est requis."
+    }
+  },
+  "labels": {
+    "fields": {
+      "optional": "(facultatif)"
+    }
+  },
+  "btn": {
+    "backToHome": "Retour au site",
+    "backToLogin": "Retour à la connexion"
+  },
+  "links": {
+    "tou": "Conditions d'Utilisation",
+    "policies": "Mentions légales"
+  },
+  "register": {
+    "tab": "Créer mon compte {name}",
+    "title": "Inscription",
+    "fields": {
+      "firstName": {
+        "label": "Prénom",
+        "error": "Veuillez entrer un prénom valide."
+      },
+      "lastName": {
+        "label": "Nom",
+        "error": "Veuillez entrer un nom de famille valide."
+      },
+      "address": {
+        "label": "Adresse postale"
+      },
+      "email": {
+        "label": "Adresse e-mail"
+      },
+      "phone": {
+        "label": "Numéro de téléphone"
+      },
+      "password": {
+        "label": "Mot de passe"
+      },
+      "confirm": {
+        "label": "Confirmation"
+      }
+    },
+    "actions": {
+      "terms": "En créant mon compte, vous acceptez nos Conditions d'utilisations.",
+      "createAccount": "Créer mon compte",
+      "alreadyRegistered": "J'ai déjà un compte"
+    }
+  },
+  "login": {
+    "tab": "Me connecter à mon compte {name}",
+    "title": "Connexion",
+    "fields": {
+      "email": {
+        "label": "Adresse e-mail"
+      },
+      "password": {
+        "label": "Mot de passe"
+      }
+    },
+    "actions": {
+      "needAnAccount": "Je n'ai pas de compte",
+      "loginAccount": "Me connecter",
+      "forgot-password": "Mot de passe oublié ?"
+    }
+  },
+  "forgot-password": {
+    "tab": "{name} : Mot de passe oublié ?",
+    "title": "Mot de passe oublié ?",
+    "caption": "Ne vous en faites pas, il est toujours possible de changer votre mot de passe. Pour cela, renseignez l'adresse e-mail connectée à votre compte. Nous vous enverrons un code de réinitialisation par e-mail.",
+    "fields": {
+      "email": "Adresse e-mail"
+    },
+    "actions": {
+      "send": "Envoyer le courriel"
+    }
+  },
+  "reset-password": {
+    "tab": "{name} : Réinitialisation du mot de passe",
+    "title": "Nouveau mot de passe",
+    "fields": {
+      "password": "Mot de passe",
+      "confirm": "Confirmation"
+    },
+    "actions": {
+      "confirmUpdate": "Mettre à jour"
+    }
+  }
 }
