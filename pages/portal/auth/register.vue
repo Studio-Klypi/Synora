@@ -170,6 +170,7 @@ const submit = form.handleSubmit(async ({ firstName, lastName, address, email, p
 
         <div class="flex flex-col gap-1 sm:flex-row sm:justify-between sm:items-center">
           <Button
+            type="button"
             variant="link"
             class="sm:-ml-4"
             as-child
@@ -182,7 +183,10 @@ const submit = form.handleSubmit(async ({ firstName, lastName, address, email, p
             class="shrink-0"
             :disabled="loading"
           >
-            <LoaderCircle v-if="loading" />
+            <LoaderCircle
+              v-if="loading"
+              class="animate-spin"
+            />
             <UserPlus v-else />
             {{ t("register.actions.createAccount") }}
           </Button>

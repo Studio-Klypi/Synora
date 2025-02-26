@@ -22,7 +22,8 @@
     }
   },
   "btn": {
-    "backToHome": "Retour au site"
+    "backToHome": "Retour au site",
+    "backToLogin": "Retour à la connexion"
   },
   "links": {
     "tou": "Conditions d'Utilisation",
@@ -75,7 +76,30 @@
     },
     "actions": {
       "needAnAccount": "Je n'ai pas de compte",
-      "loginAccount": "Me connecter"
+      "loginAccount": "Me connecter",
+      "forgot-password": "Mot de passe oublié ?"
+    }
+  },
+  "forgot-password": {
+    "tab": "{name} : Mot de passe oublié ?",
+    "title": "Mot de passe oublié ?",
+    "caption": "Ne vous en faites pas, il est toujours possible de changer votre mot de passe. Pour cela, renseignez l'adresse e-mail connectée à votre compte. Nous vous enverrons un code de réinitialisation par e-mail.",
+    "fields": {
+      "email": "Adresse e-mail"
+    },
+    "actions": {
+      "send": "Envoyer le courriel"
+    }
+  },
+  "reset-password": {
+    "tab": "{name} : Réinitialisation du mot de passe",
+    "title": "Nouveau mot de passe",
+    "fields": {
+      "password": "Mot de passe",
+      "confirm": "Confirmation"
+    },
+    "actions": {
+      "confirmUpdate": "Mettre à jour"
     }
   }
 }

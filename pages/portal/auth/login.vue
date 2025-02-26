@@ -63,7 +63,7 @@ const submit = form.handleSubmit(async (values) => {
           v-slot="{ componentField }"
           name="password"
         >
-          <FormItem>
+          <FormItem class="flex flex-col">
             <FormLabel>{{ t("login.fields.password.label") }}</FormLabel>
             <FormControl v-bind="componentField">
               <Input
@@ -72,12 +72,24 @@ const submit = form.handleSubmit(async (values) => {
               />
             </FormControl>
             <FormMessage />
+            <Button
+              type="button"
+              variant="link"
+              size="xs"
+              class="self-end"
+              as-child
+            >
+              <NuxtLinkLocale to="/security/forgotPassword">
+                {{ t("login.actions.forgot-password") }}
+              </NuxtLinkLocale>
+            </Button>
           </FormItem>
         </FormField>
       </CardContent>
 
       <CardFooter class="flex flex-col gap-1 sm:flex-row sm:justify-between sm:items-center sm:gap-8">
         <Button
+          type="button"
           variant="link"
           class="sm:-ml-4"
           as-child
@@ -90,7 +102,10 @@ const submit = form.handleSubmit(async (values) => {
           class="shrink-0"
           :disabled="loading"
         >
-          <LoaderCircle v-if="loading" />
+          <LoaderCircle
+            v-if="loading"
+            class="animate-spin"
+          />
           <Key v-else />
           {{ t("login.actions.loginAccount") }}
         </Button>
