@@ -61,3 +61,22 @@ export async function logoutTotally(uuid: string) {
     },
   });
 }
+
+export async function prune() {
+  return prisma.authSession.deleteMany({
+    where: {
+      OR: [
+        {
+          NOT: {
+            revokedAt: null,
+          },
+        },
+        {
+          expiresAt: {
+            lte: new Date(),
+          },
+        },
+      ],
+    },
+  });
+}

@@ -34,3 +34,22 @@ export async function verify(payload: IUserRequestVerificationPayload): Promise<
   if (!req) throw new UserRequestNotFoundError();
   return req;
 }
+
+export async function prune() {
+  return prisma.userRequest.deleteMany({
+    where: {
+      OR: [
+        {
+          NOT: {
+            usedAt: null,
+          },
+        },
+        {
+          expiresAt: {
+            lte: new Date(),
+          },
+        },
+      ],
+    },
+  });
+}
