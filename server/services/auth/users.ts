@@ -7,7 +7,11 @@ import * as usrRepo from "~/server/database/repositories/auth/users";
 import * as sessionService from "~/server/services/auth/sessions";
 import * as reqService from "~/server/services/auth/userRequests";
 import * as errorService from "~/server/services/generics/errors";
+import * as emailService from "~/server/services/generics/emails";
 import { UserRequestNotFoundError } from "~/types/auth/userRequests";
+import { useUserRegisteredTemplate } from "~/server/emails/templates/auth/userRegistered";
+import { usePasswordRequestCreatedTemplate } from "~/server/emails/templates/auth/passwordRequestCreated";
+import { usePasswordResetTemplate } from "~/server/emails/templates/auth/passwordReset";
 
 export async function registerUser(req: HttpRequest) {
   const payload = await readBody<INewUserPayload>(req);
@@ -15,7 +19,12 @@ export async function registerUser(req: HttpRequest) {
   try {
     const user = await usrRepo.create(payload);
     await sessionService.createAuthSession(req, user.uuid);
-    // TODO: send welcome email
+    emailService.send({
+      to: user.email,
+      template: useUserRegisteredTemplate({
+        firstName: user.firstName,
+      }),
+    }).catch(console.error);
 
     req.node.res.statusCode = HttpCode.CREATED;
     return user;
@@ -62,8 +71,13 @@ export async function requestPasswordReset(req: HttpRequest) {
       type: "password",
     });
 
-    // TODO: send email
-    console.log(request);
+    emailService.send({
+      to: user.email,
+      template: usePasswordRequestCreatedTemplate({
+        userUuid: request.userUuid,
+        code: request.code,
+      }),
+    }).catch(console.error);
   }
   finally {
     req.node.res.statusCode = HttpCode.CREATED;
@@ -90,8 +104,12 @@ export async function resetPassword(req: HttpRequest) {
     const user = await usrRepo.updatePassword(uuid, password);
     await sessionService.logout(req, uuid);
 
-    // TODO: send mail
-    console.log(user);
+    emailService.send({
+      to: user.email,
+      template: usePasswordResetTemplate({
+        firstName: user.firstName,
+      }),
+    }).catch(console.error);
 
     req.node.res.statusCode = HttpCode.ACCEPTED;
     return user;

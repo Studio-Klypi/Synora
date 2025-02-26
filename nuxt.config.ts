@@ -16,6 +16,7 @@ export default defineNuxtConfig({
     classSuffix: "",
   },
   runtimeConfig: {
+    mailerSecure: "",
     mailerUser: "",
     mailerPass: "",
     mailerHost: "",
