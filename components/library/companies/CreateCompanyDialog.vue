@@ -54,7 +54,6 @@ const submit = form.handleSubmit(async (values) => {
   });
 
   if (!company) return;
-  toggleState(false);
   await navigateTo(useLocalePath()(`/app/${company.uuid}`));
 });
 
