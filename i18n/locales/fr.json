@@ -13,6 +13,7 @@
         "regex": "Le mot de passe n'est pas assez fort.",
         "no-match": "Les mots de passe ne correspondent pas."
       },
+      "siret": "Veuillez entrer un SIRET valide.",
       "required": "Le champ est requis."
     }
   },
@@ -22,8 +23,40 @@
     }
   },
   "btn": {
+    "cancel": "Annuler",
     "backToHome": "Retour au site",
     "backToLogin": "Retour à la connexion"
+  },
+  "dialogs": {
+    "create-company": {
+      "title": "Nouvelle organisation",
+      "trigger": "Nouvelle organisation",
+      "fields": {
+        "name": {
+          "label": "Nom",
+          "placeholder": "Entrez le nom d'affichage...",
+          "error": "Veuillez entrer un nom valide."
+        },
+        "email": "E-Mail",
+        "phone": "Téléphone",
+        "address": "Adresse postale",
+        "corporate-name": {
+          "label": "Raison sociale",
+          "placeholder": "Entrez la raison sociale...",
+          "error": "Veuillez entrer une raison sociale valide."
+        },
+        "siret": "SIRET",
+        "date-of-birth": {
+          "label": "Date de création",
+          "placeholder": "Date de création...",
+          "error": "Veuillez entrer une date de création valide."
+        },
+        "terms": "J'atteste être moi-même membre de cette organisation."
+      },
+      "actions": {
+        "create": "Ajouter l'organisation"
+      }
+    }
   },
   "links": {
     "tou": "Conditions d'Utilisation",

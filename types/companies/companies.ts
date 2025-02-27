@@ -19,3 +19,9 @@ export interface IBackCompany {
 }
 
 export type INewCompanyPayload = Omit<IBackCompany, "uuid" | "createdAt" | "updatedAt" | "roles" | "members">;
+
+export interface CompaniesState {
+  companies: IBackCompany[];
+  selectedCompany: IBackCompany | null;
+  loading: boolean;
+}
