@@ -20,7 +20,8 @@
   "labels": {
     "fields": {
       "optional": "(facultatif)"
-    }
+    },
+    "or": "Ou"
   },
   "btn": {
     "cancel": "Annuler",
@@ -134,5 +135,14 @@
     "actions": {
       "confirmUpdate": "Mettre à jour"
     }
+  },
+  "portal": {
+    "tab": "{name}, Mes organisations",
+    "title": "Sélectionne une organisation",
+    "empty": {
+      "label": "Tu n'as aucune organisation pour le moment",
+      "action": "Ajouter mon organisation"
+    },
+    "joinAdminPanel": "Rejoindre le panneau Administrateur"
   }
 }
