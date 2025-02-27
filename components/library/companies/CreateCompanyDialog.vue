@@ -17,6 +17,9 @@ const emit = defineEmits<{
 }>();
 
 const open = ref<boolean>(props.open);
+watch(props, (val) => {
+  open.value = val.open ?? false;
+});
 
 const store = useCompaniesStore();
 const loading = computed(() => store.loading);
@@ -54,13 +57,9 @@ const submit = form.handleSubmit(async (values) => {
   });
 
   if (!company) return;
+  emit("update:open", false);
   await navigateTo(useLocalePath()(`/app/${company.uuid}`));
 });
-
-function toggleState(state: boolean) {
-  open.value = state;
-  emit("update:open", state);
-}
 </script>
 
 <template>
