@@ -4,6 +4,7 @@
   "brand": {
     "name": "Synora"
   },
+
   "errors": {
     "fields": {
       "address": "Veuillez entrer au moins 1 caractère.",
@@ -26,7 +27,11 @@
   "btn": {
     "cancel": "Annuler",
     "backToHome": "Retour au site",
-    "backToLogin": "Retour à la connexion"
+    "backToLogin": "Retour à la connexion",
+    "log-out": "Déconnexion"
+  },
+  "tabs": {
+    "company": "{page} · {name}"
   },
   "dialogs": {
     "create-company": {
@@ -63,6 +68,15 @@
     "tou": "Conditions d'Utilisation",
     "policies": "Mentions légales"
   },
+
+  "navigation": {
+    "overview": "Vue d'ensemble"
+  },
+  "nav-actions": {
+    "label": "Mes organisations",
+    "new-company": "Ajouter une organisation"
+  },
+
   "register": {
     "tab": "Créer mon compte {name}",
     "title": "Inscription",
@@ -144,5 +158,9 @@
       "action": "Ajouter mon organisation"
     },
     "joinAdminPanel": "Rejoindre le panneau Administrateur"
+  },
+
+  "overview": {
+    "tab": "Vue d'ensemble"
   }
 }
