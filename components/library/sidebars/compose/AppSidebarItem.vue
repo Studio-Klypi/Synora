@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import type { INavItem, INavSection } from "~/types/frontend/navigation";
+import type { IBackCompany } from "~/types/companies/companies";
 
 defineProps<{
   parent: INavSection;
   item: INavItem;
 }>();
+
+const store = useCompaniesStore();
+const company = computed(() => store.selectedCompany as IBackCompany);
+const path = computed(() => `/app/${company.value.uuid}`);
 </script>
 
 <template>
@@ -14,8 +19,8 @@ defineProps<{
       as-child
     >
       <NuxtLinkLocale
-        :to="item.url"
-        class="bg-sidebar-accent text-sidebar-accent-foreground"
+        :to="`${path}${item.url}`"
+        active-class="bg-sidebar-accent text-sidebar-accent-foreground"
       >
         <component
           :is="item.icon"
