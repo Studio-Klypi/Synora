@@ -60,5 +60,6 @@ export const useCompaniesStore = defineStore("companies", {
   },
   getters: {
     getCompanies: state => state.companies,
+    getReducedCompanies: state => state.companies.filter(c => c.uuid !== state.selectedCompany?.uuid),
   },
 });

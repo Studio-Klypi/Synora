@@ -8,22 +8,7 @@ import ClientSidebarUser from "~/components/library/sidebars/client/ClientSideba
 
 const store = useCompaniesStore();
 const company = computed(() => store.selectedCompany as IBackCompany);
-const companies = computed(() => store.companies);
-
-const getUrl = (path: string): string => `/app/${company.value.uuid}/${path.startsWith("/") ? path.substring(1) : path}`;
-
-const navigation: INavSection[] = [
-  {
-    children: [
-      {
-        type: "item",
-        label: "overview",
-        icon: Home,
-        url: getUrl("/"),
-      },
-    ],
-  },
-];
+const companies = computed(() => store.getReducedCompanies);
 </script>
 
 <template>
