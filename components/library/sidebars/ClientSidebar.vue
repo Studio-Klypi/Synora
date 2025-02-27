@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { Home, LockKeyhole } from "lucide-vue-next";
+import { navSections } from "assets/data/navigation/client";
 import type { IBackCompany } from "~/types/companies/companies";
-import type { INavSection } from "~/types/frontend/navigation";
 import AppSidebarSection from "~/components/library/sidebars/compose/AppSidebarSection.vue";
 import ClientCompanySwitcher from "~/components/library/sidebars/client/ClientCompanySwitcher.vue";
 import ClientSidebarUser from "~/components/library/sidebars/client/ClientSidebarUser.vue";
@@ -20,7 +19,7 @@ const companies = computed(() => store.getReducedCompanies);
       />
     </SidebarHeader>
     <SidebarContent>
-      <AppSidebarSection :sections="navigation" />
+      <AppSidebarSection :sections="navSections" />
     </SidebarContent>
     <SidebarFooter>
       <ClientSidebarUser />
