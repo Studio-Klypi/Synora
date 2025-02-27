@@ -70,7 +70,11 @@
   },
 
   "navigation": {
-    "overview": "Vue d'ensemble"
+    "overview": "Vue d'ensemble",
+    "administration": {
+      "DEFAULT": "Administration",
+      "roles": "Rôles"
+    }
   },
   "nav-actions": {
     "label": "Mes autres organisations",
@@ -162,5 +166,8 @@
 
   "overview": {
     "tab": "Vue d'ensemble"
+  },
+  "roles": {
+    "tab": "Rôles"
   }
 }
