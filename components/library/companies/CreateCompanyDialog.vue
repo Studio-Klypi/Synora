@@ -65,7 +65,7 @@ const submit = form.handleSubmit(async (values) => {
 <template>
   <Dialog
     :open="open"
-    @update:open="toggleState"
+    @update:open="emit('update:open', $event)"
   >
     <DialogTrigger as-child>
       <slot />
