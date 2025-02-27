@@ -1,10 +1,11 @@
 import type { HttpRequest } from "~/types/generics/requests";
+import { HttpCode } from "~/types/generics/requests";
 import type { INewCompanyPayload } from "~/types/companies/companies";
+import { CompanyNotFoundError } from "~/types/companies/companies";
 import * as cpyRepo from "~/server/database/repositories/companies/companies";
 import * as mbrRepo from "~/server/database/repositories/companies/members";
 import * as errorService from "~/server/services/generics/errors";
 import * as emailService from "~/server/services/generics/emails";
-import { HttpCode } from "~/types/generics/requests";
 import { useCompanyCreatedTemplate } from "~/server/emails/templates/companies/companyCreated";
 import { useCompanyCreatedByTemplate } from "~/server/emails/templates/companies/companyCreatedBy";
 
@@ -43,12 +44,32 @@ export async function createCompany(req: HttpRequest) {
     return errorService.throwError(req, { stack: JSON.stringify(e) });
   }
 }
+
 export async function getSelfCompanies(req: HttpRequest) {
   try {
     const user = req.context.user;
     return await cpyRepo.getFromUser(user.uuid);
   }
   catch (e) {
+    return errorService.throwError(req, { stack: JSON.stringify(e) });
+  }
+}
+export async function getCompany(req: HttpRequest) {
+  const user = req.context.user;
+  const companyUuid = getRouterParam(req, "uuid");
+  if (!companyUuid) return errorService.throwError(req, {
+    code: HttpCode.BAD_REQUEST,
+    message: "Company uuid is mandatory to use this end point.",
+  });
+
+  try {
+    return await cpyRepo.get(user.uuid, companyUuid);
+  }
+  catch (e) {
+    if (e instanceof CompanyNotFoundError) return errorService.throwError(req, {
+      code: HttpCode.NOT_FOUND,
+      message: "Company not found!",
+    });
     return errorService.throwError(req, { stack: JSON.stringify(e) });
   }
 }

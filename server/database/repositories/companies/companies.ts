@@ -2,6 +2,7 @@ import type { IBackCompany, INewCompanyPayload } from "~/types/companies/compani
 import prisma from "~/server/database";
 import { defaultCompanyRoles } from "~/server/database/default-data/company-roles";
 import type { IOpListResult } from "~/types/generics/database";
+import { CompanyNotFoundError } from "~/types/companies/companies";
 
 export function purify(company: IBackCompany): IBackCompany {
   const json = { ...company } as Partial<IBackCompany>;
@@ -41,5 +42,24 @@ export async function getFromUser(uuid: string): Promise<IOpListResult<IBackComp
       total: list.length,
       totalPages: 1,
     },
+  };
+}
+
+export async function get(userUuid: string, uuid: string): Promise<IBackCompany> {
+  const company = await prisma.company.findUnique({
+    where: {
+      uuid,
+      members: {
+        some: {
+          userUuid,
+        },
+      },
+    },
+  });
+  if (!company) throw new CompanyNotFoundError();
+  return {
+    ...company,
+    members: [],
+    roles: [],
   };
 }

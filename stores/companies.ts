@@ -46,6 +46,17 @@ export const useCompaniesStore = defineStore("companies", {
 
       return createdCompany;
     },
+    async selectCompany(uuid: string) {
+      try {
+        const { data } = await useFetch<IBackCompany>(`/api/companies/${uuid}`);
+        if (!data.value) return;
+        this.selectedCompany = data.value;
+      }
+      catch (e) {
+        // TODO: toast
+        console.error(e);
+      }
+    },
   },
   getters: {
     getCompanies: state => state.companies,

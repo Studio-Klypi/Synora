@@ -12,7 +12,7 @@ export interface IBackCompanyMember {
 
   user?: IUser;
   company?: IBackCompany;
-  role?: IBackRole;
+  role?: IBackRole | null;
 }
 
 export type INewCompanyMemberPayload = Omit<IBackCompanyMember, "createdAt" | "updatedAt" | "user" | "company" | "role">;

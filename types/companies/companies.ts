@@ -1,5 +1,6 @@
 import type { IBackRole } from "~/types/companies/roles";
 import type { IBackCompanyMember } from "~/types/companies/members";
+import { EntityNotFoundError } from "~/types/generics/errors";
 
 export interface IBackCompany {
   uuid: string;
@@ -25,3 +26,5 @@ export interface CompaniesState {
   selectedCompany: IBackCompany | null;
   loading: boolean;
 }
+
+export class CompanyNotFoundError extends EntityNotFoundError {}
