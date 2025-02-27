@@ -48,6 +48,7 @@ export const useUserStore = defineStore("user", {
           method: "POST",
           body: payload,
         });
+        useCompaniesStore().fetchUserCompanies().then();
         await navigateTo(useLocalePath()("/portal"));
       }
       catch (e) {

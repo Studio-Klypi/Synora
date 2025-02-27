@@ -39,6 +39,16 @@ export async function createCompany(req: HttpRequest) {
     return cpyRepo.purify(company);
   }
   catch (e) {
+    console.error(e);
+    return errorService.throwError(req, { stack: JSON.stringify(e) });
+  }
+}
+export async function getSelfCompanies(req: HttpRequest) {
+  try {
+    const user = req.context.user;
+    return await cpyRepo.getFromUser(user.uuid);
+  }
+  catch (e) {
     return errorService.throwError(req, { stack: JSON.stringify(e) });
   }
 }
