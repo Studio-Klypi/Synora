@@ -1,10 +1,9 @@
 import { protect } from "~/server/services/generics/protections";
-import { getCompany } from "~/server/services/companies/companies";
 
 export default defineEventHandler(async event =>
   await protect(
     event,
-    async req => await getCompany(req),
+    async req => req.context.company,
     {
       auth: true,
       permissions: [],
