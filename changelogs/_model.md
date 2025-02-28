@@ -1,6 +1,7 @@
 # Changelog [date]
 
 ## Table of contents
+- [Legend](#legend)
 - [Additions](#additions)
     - [Back-end](#back-end)
     - [Front-end](#front-end)
@@ -8,6 +9,11 @@
     - [Back-end](#back-end-1)
     - [Front-end](#front-end-1)
 - [Future developments](#future-developments)
+
+## Legend
+`[FE]`: Front-end    
+`[BE]`: Back-end  
+`[FS]`: Full-stack
 
 ## Additions
 ### Back-end
