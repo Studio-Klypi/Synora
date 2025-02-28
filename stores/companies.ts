@@ -1,11 +1,13 @@
 import type { CompaniesState, IBackCompany, INewCompanyPayload } from "~/types/companies/companies";
 import type { IOpListResult } from "~/types/generics/database";
+import type { IBackRole } from "~/types/companies/roles";
 
 export const useCompaniesStore = defineStore("companies", {
   state: (): CompaniesState => ({
     companies: [],
     selectedCompany: null,
     loading: false,
+    loadingRoles: false,
   }),
   actions: {
     async fetchUserCompanies() {
@@ -55,6 +57,24 @@ export const useCompaniesStore = defineStore("companies", {
       catch (e) {
         // TODO: toast
         console.error(e);
+      }
+    },
+    async fetchRoles() {
+      if (!this.selectedCompany) return;
+
+      this.loadingRoles = true;
+
+      try {
+        const { data: res } = await useFetch<IOpListResult<IBackRole>>(`/api/companies/${this.selectedCompany.uuid}/roles`);
+        if (!res.value) return;
+        this.selectedCompany.roles = res.value.data;
+      }
+      catch (e) {
+        // TODO: toast
+        console.error(e);
+      }
+      finally {
+        this.loadingRoles = false;
       }
     },
   },

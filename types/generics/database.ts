@@ -7,3 +7,10 @@ export interface IOpListResult<T> {
   data: T[];
   meta: IOpListMeta;
 }
+
+export interface IOpListQuery {
+  limit?: {
+    page: number;
+    perPage: number;
+  };
+}
