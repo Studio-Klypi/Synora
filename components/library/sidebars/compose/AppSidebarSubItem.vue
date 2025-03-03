@@ -21,6 +21,9 @@ const path = computed(() => `/app/${company.value.uuid}`);
         active-class="bg-sidebar-accent text-sidebar-accent-foreground"
       >
         <span>{{ $t(`navigation.${parent.label ? `${parent.label}.${group.label}` : group.label}.${item.label}`) }}</span>
+        <Badge v-if="parent.new || group.new || item.new">
+          {{ $t("labels.new") }}
+        </Badge>
       </NuxtLinkLocale>
     </SidebarMenuSubButton>
   </SidebarMenuSubItem>

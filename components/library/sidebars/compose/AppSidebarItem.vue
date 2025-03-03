@@ -27,6 +27,12 @@ const path = computed(() => `/app/${company.value.uuid}`);
           v-if="item.icon"
         />
         <span class="truncate">{{ $t(`navigation.${parent.label ? `${parent.label}.${item.label}` : item.label}`) }}</span>
+        <Badge
+          v-if="parent.new || item.new"
+          class="ml-auto"
+        >
+          {{ $t("labels.new") }}
+        </Badge>
       </NuxtLinkLocale>
     </SidebarMenuButton>
   </SidebarMenuItem>

@@ -22,12 +22,13 @@
     "fields": {
       "optional": "(facultatif)"
     },
-    "or": "Ou",
     "table": {
       "selected-rows-count": "{count} ligne(s) sélectionnée(s)",
       "select-row": "Sélectionner la ligne",
       "select-all": "Tout sélectionner"
-    }
+    },
+    "or": "Ou",
+    "new": "Nouveau"
   },
   "filters": {
     "table": {
