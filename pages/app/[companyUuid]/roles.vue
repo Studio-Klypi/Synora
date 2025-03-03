@@ -36,7 +36,7 @@ const rowsSelected = computed(() => table.getFilteredSelectedRowModel().rows.map
 watch(perPage, updateQueryParams);
 watch(page, updateQueryParams);
 
-await store.fetchRoles(perPage.value);
+await store.fetchRoles(perPage.value, page.value);
 
 function updateQueryParams() {
   navigateTo({
@@ -45,6 +45,7 @@ function updateQueryParams() {
       page: page.value,
     },
   });
+  store.fetchRoles(perPage.value, page.value).then();
 }
 </script>
 
