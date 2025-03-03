@@ -59,13 +59,13 @@ export const useCompaniesStore = defineStore("companies", {
         console.error(e);
       }
     },
-    async fetchRoles() {
+    async fetchRoles(perPage: number = 20) {
       if (!this.selectedCompany) return;
 
       this.loadingRoles = true;
 
       try {
-        const { data: res } = await useFetch<IOpListResult<IBackRole>>(`/api/companies/${this.selectedCompany.uuid}/roles`);
+        const { data: res } = await useFetch<IOpListResult<IBackRole>>(`/api/companies/${this.selectedCompany.uuid}/roles?perPage=${perPage}`);
         if (!res.value) return;
         this.selectedCompany.roles = res.value.data;
       }
