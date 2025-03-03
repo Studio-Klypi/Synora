@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { getCoreRowModel, useVueTable } from "@tanstack/vue-table";
+import { columns } from "assets/tables/columnDefs/rolesColumns";
+import { Plus, Trash, LayoutGrid } from "lucide-vue-next";
 import type { IBackCompany } from "~/types/companies/companies";
 
 definePageMeta({
@@ -11,6 +14,10 @@ const store = useCompaniesStore();
 const loadingRoles = computed(() => store.loadingRoles);
 const company = computed(() => store.selectedCompany as IBackCompany);
 
+const route = useRoute();
+const perPage = ref<number>(Number(route.query.perPage ?? 20));
+const page = ref<number>(Number(route.query.page ?? 1));
+
 useHead({
   title: t("tabs.company", {
     page: t("roles.tab"),
@@ -18,29 +25,93 @@ useHead({
   }),
 });
 
-await store.fetchRoles();
+const table = useVueTable({
+  get data() { return company.value.roles ?? []; },
+  get columns() { return columns(t); },
+  getCoreRowModel: getCoreRowModel(),
+});
+const hasSelected = computed(() => table.getIsSomeRowsSelected() || table.getIsAllRowsSelected());
+const rowsSelected = computed(() => table.getFilteredSelectedRowModel().rows.map(r => Number(r.id)));
+
+watch(perPage, updateQueryParams);
+watch(page, updateQueryParams);
+
+await store.fetchRoles(perPage.value);
+
+function updateQueryParams() {
+  navigateTo({
+    query: {
+      perPage: perPage.value,
+      page: page.value,
+    },
+  });
+}
 </script>
 
 <template>
-  <div role="main">
-    <Button @click="selectPage(2)">
-      Next page
-    </Button>
-    <template v-if="loadingRoles">
-      LOADING
-    </template>
-    <template v-else>
-      <template v-if="company.roles?.length">
-        <p
-          v-for="role in company.roles"
-          :key="role.id"
-        >
-          {{ role.name }}
+  <div
+    role="main"
+    class="flex flex-col gap-4"
+  >
+    <header class="flex flex-col sm:flex-row sm:items-center gap-4">
+      <template v-if="hasSelected">
+        <p class="flex-1 text-sm text-muted-foreground">
+          {{ t("labels.table.selected-rows-count", { count: rowsSelected.length }) }}.
         </p>
+        <DropdownMenu>
+          <DropdownMenuTrigger as-child>
+            <Button>
+              <LayoutGrid />
+              <span>{{ t("roles.table.actions.trigger") }}</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            side="bottom"
+            align="end"
+          >
+            <DropdownMenuItem>
+              <Trash />
+              <span>{{ t("roles.table.actions.multiple.delete") }}</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </template>
       <template v-else>
-        No Roles
+        <Input
+          type="search"
+          placeholder="Search..."
+        />
+        <div class="flex gap-4">
+          <Select v-model="perPage">
+            <SelectTrigger class="sm:w-min gap-2">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent align="end">
+              <SelectItem :value="20">
+                {{ t("filters.table.perPage.20") }}
+              </SelectItem>
+              <SelectItem :value="50">
+                {{ t("filters.table.perPage.50") }}
+              </SelectItem>
+              <SelectItem :value="100">
+                {{ t("filters.table.perPage.100") }}
+              </SelectItem>
+              <SelectItem :value="-1">
+                {{ t("filters.table.perPage.all") }}
+              </SelectItem>
+            </SelectContent>
+          </Select>
+          <Button>
+            <Plus />
+            <span>{{ t("roles.new") }}</span>
+          </Button>
+        </div>
       </template>
-    </template>
+    </header>
+
+    <DataTable
+      :table="table"
+      :loading="loadingRoles"
+    />
   </div>
 </template>

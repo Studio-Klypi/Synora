@@ -22,7 +22,22 @@
     "fields": {
       "optional": "(facultatif)"
     },
-    "or": "Ou"
+    "or": "Ou",
+    "table": {
+      "selected-rows-count": "{count} ligne(s) sélectionnée(s)",
+      "select-row": "Sélectionner la ligne",
+      "select-all": "Tout sélectionner"
+    }
+  },
+  "filters": {
+    "table": {
+      "perPage": {
+        "20": "20 par page",
+        "50": "50 par page",
+        "100": "100 par page",
+        "all": "Tout"
+      }
+    }
   },
   "btn": {
     "cancel": "Annuler",
@@ -168,6 +183,24 @@
     "tab": "Vue d'ensemble"
   },
   "roles": {
-    "tab": "Rôles"
+    "tab": "Rôles",
+    "table": {
+      "headers": {
+        "name": "Nom",
+        "permissions": "Permissions",
+        "members": "Membres"
+      },
+      "actions": {
+        "trigger": "Actions",
+        "single": {
+          "edit": "Éditer",
+          "delete": "Supprimer"
+        },
+        "multiple": {
+          "delete": "Supprimer les rôles"
+        }
+      }
+    },
+    "new": "Nouveau rôle"
   }
 }
