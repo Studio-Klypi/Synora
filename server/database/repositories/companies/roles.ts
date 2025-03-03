@@ -36,6 +36,9 @@ export async function getList(uuid: string, options: IOpListQuery = {
     where,
     skip: options.limit ? (options.limit.page - 1) * options.limit.perPage : 0,
     take: options.limit ? options.limit.perPage : -1,
+    include: {
+      members: true,
+    },
   });
 
   return {
