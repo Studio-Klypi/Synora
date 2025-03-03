@@ -60,12 +60,17 @@ const submit = form.handleSubmit(async (values) => {
   emit("update:open", false);
   await navigateTo(useLocalePath()(`/app/${company.uuid}`));
 });
+
+function toggleState(state: boolean) {
+  open.value = state;
+  emit("update:open", state);
+}
 </script>
 
 <template>
   <Dialog
     :open="open"
-    @update:open="emit('update:open', $event)"
+    @update:open="toggleState($event)"
   >
     <DialogTrigger as-child>
       <slot />
