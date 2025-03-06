@@ -205,7 +205,7 @@
         }
       }
     },
-    "dialog": {
+    "dialogs": {
       "create-role": {
         "trigger": "Nouveau rôle",
         "title": "Nouveau rôle",

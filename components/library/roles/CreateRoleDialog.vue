@@ -42,7 +42,9 @@ const submit = form.handleSubmit(async (values) => {
       <slot />
     </DialogTrigger>
     <DialogContent>
-      <DialogHeader />
+      <DialogHeader>
+        <DialogTitle>{{ $t("roles.dialogs.create-role.title") }}</DialogTitle>
+      </DialogHeader>
 
       <form @submit="submit">
         <FormField
@@ -50,7 +52,7 @@ const submit = form.handleSubmit(async (values) => {
           name="name"
         >
           <FormItem>
-            <FormLabel>{{ $t("roles.dialog.create-role.fields.name") }}</FormLabel>
+            <FormLabel>{{ $t("roles.dialogs.create-role.fields.name") }}</FormLabel>
             <FormControl v-bind="componentField">
               <Input placeholder="Ex : Mon rôle" />
             </FormControl>
@@ -78,7 +80,7 @@ const submit = form.handleSubmit(async (values) => {
               class="animate-spin"
             />
             <Plus v-else />
-            {{ $t("roles.dialog.create-role.action") }}
+            {{ $t("roles.dialogs.create-role.action") }}
           </Button>
         </DialogFooter>
       </form>
