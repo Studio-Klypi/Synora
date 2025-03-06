@@ -3,6 +3,7 @@ import * as roleRepo from "~/server/database/repositories/companies/roles";
 import * as errorService from "~/server/services/generics/errors";
 import type { INewRolePayload } from "~/types/companies/roles";
 import { HttpCode } from "~/types/generics/requests";
+import { RoleNotFoundError } from "~/types/companies/roles";
 
 export async function createRole(req: HttpRequest) {
   const company = req.context.company;
@@ -18,6 +19,28 @@ export async function createRole(req: HttpRequest) {
     return role;
   }
   catch (e) {
+    return errorService.throwError(req, { stack: JSON.stringify(e) });
+  }
+}
+export async function deleteRole(req: HttpRequest) {
+  const company = req.context.company;
+  const roleId = getRouterParam(req, "roleId");
+  if (!roleId) return errorService.throwError(req, {
+    code: HttpCode.BAD_REQUEST,
+    message: "Role id is required!",
+  });
+
+  try {
+    const role = await roleRepo.destroy(Number(roleId), company.uuid);
+
+    req.node.res.statusCode = HttpCode.ACCEPTED;
+    return role;
+  }
+  catch (e) {
+    if (e instanceof RoleNotFoundError) return errorService.throwError(req, {
+      code: HttpCode.NOT_FOUND,
+      message: "Role not found!",
+    });
     return errorService.throwError(req, { stack: JSON.stringify(e) });
   }
 }

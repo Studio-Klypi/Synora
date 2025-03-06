@@ -27,6 +27,7 @@ export interface CompaniesState {
   loading: boolean;
   loadingRoles: boolean;
   creatingRole: boolean;
+  deletingRole: boolean;
 }
 
 export class CompanyNotFoundError extends EntityNotFoundError {}

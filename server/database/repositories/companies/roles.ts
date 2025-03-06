@@ -22,6 +22,17 @@ export async function create(payload: INewRolePayload): Promise<IBackRole> {
   }
 }
 
+export async function destroy(id: number, companyUuid: string): Promise<IBackRole> {
+  const role = await prisma.role.delete({
+    where: {
+      id,
+      companyUuid,
+    },
+  });
+  if (!role) throw new RoleNotFoundError();
+  return role;
+}
+
 export async function getList(uuid: string, options: IOpListQuery = {
   limit: {
     page: 1,

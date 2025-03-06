@@ -1,6 +1,6 @@
 import type { IBackCompany } from "~/types/companies/companies";
 import type { IBackCompanyMember } from "~/types/companies/members";
-import { DatabaseConflictError } from "~/types/generics/errors";
+import { DatabaseConflictError, EntityNotFoundError } from "~/types/generics/errors";
 
 export interface IBackRole {
   id: number;
@@ -17,3 +17,4 @@ export interface IBackRole {
 export type INewRolePayload = Omit<IBackRole, "id" | "createdAt" | "updatedAt" | "company" | "members">;
 
 export class RoleConflictError extends DatabaseConflictError {}
+export class RoleNotFoundError extends EntityNotFoundError {}

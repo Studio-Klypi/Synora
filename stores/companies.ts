@@ -9,6 +9,7 @@ export const useCompaniesStore = defineStore("companies", {
     loading: false,
     loadingRoles: false,
     creatingRole: false,
+    deletingRole: false,
   }),
   actions: {
     async fetchUserCompanies() {
@@ -101,6 +102,26 @@ export const useCompaniesStore = defineStore("companies", {
       }
       finally {
         this.creatingRole = false;
+      }
+    },
+    async deleteRole(role: IBackRole) {
+      if (!this.selectedCompany) return;
+
+      this.deletingRole = true;
+
+      try {
+        await $fetch(`/api/companies/${this.selectedCompany.uuid}/roles/${role.id}/delete`, {
+          method: "DELETE",
+        });
+
+        this.selectedCompany.roles = this.selectedCompany.roles?.filter(r => r.id !== role.id);
+      }
+      catch (e) {
+        // TODO: toast
+        console.error(e);
+      }
+      finally {
+        this.deletingRole = false;
       }
     },
   },

@@ -44,6 +44,7 @@
   },
   "btn": {
     "cancel": "Annuler",
+    "confirm": "Confirmer",
     "backToHome": "Retour au site",
     "backToLogin": "Retour à la connexion",
     "log-out": "Déconnexion"
@@ -52,6 +53,10 @@
     "company": "{page} · {name}"
   },
   "dialogs": {
+    "confirmation": {
+      "title": "Êtes-vous sûr ?",
+      "caption": "Cette action demande votre confirmation. Êtes-vous sûr de vouloir poursuivre la démarche ?"
+    },
     "create-company": {
       "title": "Nouvelle organisation",
       "trigger": "Nouvelle organisation",
@@ -214,6 +219,9 @@
           "permissions": "Permissions"
         },
         "action": "Ajouter le rôle"
+      },
+      "delete-confirmation": {
+        "caption": "Attention, cette action est irréversible ! Êtes-vous sûr de vouloir supprimer ce rôle définitivement ?"
       }
     },
     "new": "Nouveau rôle"
