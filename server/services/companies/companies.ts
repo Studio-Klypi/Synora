@@ -22,14 +22,16 @@ export async function createCompany(req: HttpRequest) {
 
     emailService.send({
       to: user.email,
-      template: useCompanyCreatedTemplate({
+      subject: "Wahou, toute nouvelle organisation !",
+      template: await useCompanyCreatedTemplate({
         firstName: user.firstName,
         companyName: company.name,
       }),
     }).catch(console.error);
     emailService.send({
       to: company.email,
-      template: useCompanyCreatedByTemplate({
+      subject: "Wahou, toute nouvelle organisation !",
+      template: await useCompanyCreatedByTemplate({
         firstName: user.firstName,
         companyName: company.name,
       }),

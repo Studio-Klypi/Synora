@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import vue from "@vitejs/plugin-vue";
+
 export default defineNuxtConfig({
   modules: [
     "@nuxt/eslint",
@@ -28,6 +30,13 @@ export default defineNuxtConfig({
     },
   },
   compatibilityDate: "2024-11-01",
+  nitro: {
+    rollupConfig: {
+      plugins: [
+        vue(),
+      ],
+    },
+  },
   eslint: {
     checker: true,
     config: {

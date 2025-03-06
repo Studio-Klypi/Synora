@@ -1,16 +1,15 @@
-import type { IEmailTemplateRegistration } from "~/types/generics/emails";
+import { render } from "@vue-email/render";
+import type { IEmailRegistry } from "~/types/generics/emails";
+import CompanyCreatedByTemplate from "~/server/emails/components/companies/CompanyCreatedByTemplate.vue";
 
-export const useCompanyCreatedByTemplate: IEmailTemplateRegistration = (options) => {
-  options = options as {
+export const useCompanyCreatedByTemplate: IEmailRegistry = async (options) => {
+  const props = options as {
     firstName: string;
     companyName: string;
   };
 
   return {
-    subject: "Wahou, toute nouvelle organisation !",
-    body: {
-      text: `Bonjour ${options.companyName} ! ${options.firstName} a enregistré votre organisation sur Synora ! Il est aujourd'hui le seul à avoir les droits sur l'organisation. Contactez-le pour vous accorder les droits qui vous sont attribués.`,
-      html: "",
-    },
+    text: await render(CompanyCreatedByTemplate, props, { plainText: true }),
+    html: await render(CompanyCreatedByTemplate, props, { pretty: true }),
   };
 };

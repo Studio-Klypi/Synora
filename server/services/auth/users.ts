@@ -21,7 +21,8 @@ export async function registerUser(req: HttpRequest) {
     await sessionService.createAuthSession(req, user.uuid);
     emailService.send({
       to: user.email,
-      template: useUserRegisteredTemplate({
+      subject: `Bienvenue ${user.firstName}`,
+      template: await useUserRegisteredTemplate({
         firstName: user.firstName,
       }),
     }).catch(console.error);
@@ -73,7 +74,8 @@ export async function requestPasswordReset(req: HttpRequest) {
 
     emailService.send({
       to: user.email,
-      template: usePasswordRequestCreatedTemplate({
+      subject: "Réinitialisation de ton mot de passe",
+      template: await usePasswordRequestCreatedTemplate({
         userUuid: request.userUuid,
         code: request.code,
       }),
@@ -106,7 +108,8 @@ export async function resetPassword(req: HttpRequest) {
 
     emailService.send({
       to: user.email,
-      template: usePasswordResetTemplate({
+      subject: "Mot de passe réinitialisé !",
+      template: await usePasswordResetTemplate({
         firstName: user.firstName,
       }),
     }).catch(console.error);

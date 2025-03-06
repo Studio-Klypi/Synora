@@ -1,16 +1,15 @@
-import type { IEmailTemplateRegistration } from "~/types/generics/emails";
+import { render } from "@vue-email/render";
+import type { IEmailRegistry } from "~/types/generics/emails";
+import CompanyCreatedTemplate from "~/server/emails/components/companies/CompanyCreatedTemplate.vue";
 
-export const useCompanyCreatedTemplate: IEmailTemplateRegistration = (options) => {
-  options = options as {
+export const useCompanyCreatedTemplate: IEmailRegistry = async (options) => {
+  const props = options as {
     firstName: string;
     companyName: string;
   };
 
   return {
-    subject: "Wahou, toute nouvelle organisation !",
-    body: {
-      text: `Bravo ${options.firstName} ! "${options.companyName}" est dès maintenant enregistrée. Continue la configuration sur la plateforme, personnalise-la à ta guise ou demande à quelqu'un de ton organisation de t'aider.`,
-      html: "",
-    },
+    text: await render(CompanyCreatedTemplate, props, { plainText: true }),
+    html: await render(CompanyCreatedTemplate, props, { pretty: true }),
   };
 };
