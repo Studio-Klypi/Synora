@@ -3,6 +3,7 @@ import { Ellipsis, Pen, Trash } from "lucide-vue-next";
 import type { HTMLAttributes } from "vue";
 import type { IBackRole } from "~/types/companies/roles";
 import ConfirmationDialog from "~/components/library/dialogs/ConfirmationDialog.vue";
+import CreateRoleDialog from "~/components/library/roles/CreateRoleDialog.vue";
 
 const props = defineProps<{
   role: IBackRole;
@@ -10,6 +11,9 @@ const props = defineProps<{
 }>();
 
 const store = useCompaniesStore();
+
+// EDIT
+const editRole = ref<boolean>(false);
 
 // DELETE
 const deleteAlert = ref<boolean>(false);
@@ -31,11 +35,16 @@ async function deleteRole() {
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end">
-      <DropdownMenuItem>
+      <DropdownMenuItem
+        :disabled="disabledByPermission('roles.manage')"
+      >
         <Pen />
         {{ $t("roles.table.actions.single.edit") }}
       </DropdownMenuItem>
-      <DropdownMenuItem @click="deleteAlert = true">
+      <DropdownMenuItem
+        :disabled="disabledByPermission('roles.manage')"
+        @select="deleteAlert = true"
+      >
         <Trash />
         {{ $t("roles.table.actions.single.delete") }}
       </DropdownMenuItem>
@@ -50,4 +59,5 @@ async function deleteRole() {
     @update:open="deleteAlert = $event"
     @confirmed="deleteAlert = false"
   />
+  <CreateRoleDialog />
 </template>

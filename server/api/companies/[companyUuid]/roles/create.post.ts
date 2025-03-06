@@ -7,6 +7,8 @@ export default defineEventHandler(async event =>
     async req => await createRole(req),
     {
       auth: true,
-      permissions: [], // todo: add permission
+      permissions: [
+        "roles.manage",
+      ],
     },
   ));

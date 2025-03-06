@@ -4,10 +4,12 @@ import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 import { NAME_REGEX } from "assets/constants";
+import { RolePermissions } from "~/types/security/permissions";
+import type { IBackRole } from "~/types/companies/roles";
 
 const { t } = useI18n();
 
-const open = ref<boolean>(false);
+const open = ref<boolean>();
 
 const store = useCompaniesStore();
 const loading = computed(() => store.creatingRole);
@@ -29,6 +31,7 @@ const submit = form.handleSubmit(async (values) => {
     name: values.name,
     permissions: values.permissions ?? [],
   });
+
   open.value = false;
 });
 </script>
@@ -38,15 +41,19 @@ const submit = form.handleSubmit(async (values) => {
     :open="open"
     @update:open="open = $event"
   >
-    <DialogTrigger>
+    <DialogTrigger as-child>
       <slot />
     </DialogTrigger>
-    <DialogContent>
-      <DialogHeader>
+    <DialogContent class="sm:max-w-[425px] grid-rows-[auto_minmax(0,1fr)_auto] max-h-[90dvh] p-0">
+      <DialogHeader class="p-6 pb-0">
         <DialogTitle>{{ $t("roles.dialogs.create-role.title") }}</DialogTitle>
       </DialogHeader>
 
-      <form @submit="submit">
+      <form
+        id="createRoleForm"
+        class="grid gap-4 px-6 overflow-y-auto py-1"
+        @submit="submit"
+      >
         <FormField
           v-slot="{ componentField }"
           name="name"
@@ -56,34 +63,65 @@ const submit = form.handleSubmit(async (values) => {
             <FormControl v-bind="componentField">
               <Input placeholder="Ex : Mon rôle" />
             </FormControl>
+            <FormMessage />
           </FormItem>
         </FormField>
-        <!-- TODO: <FormField name="permissions">
+        <FormField name="permissions">
           <FormItem>
-            <FormLabel>{{ $t("roles.dialog.create-role.fields.permissions") }}</FormLabel>
-          </FormItem>
-        </FormField> -->
+            <FormLabel>{{ $t("roles.dialogs.create-role.fields.permissions") }}</FormLabel>
 
-        <DialogFooter class="mt-4">
-          <DialogClose as-child>
-            <Button
-              type="button"
-              variant="secondary"
-            >
-              <X />
-              {{ $t("btn.cancel") }}
-            </Button>
-          </DialogClose>
-          <Button :disabled="loading">
-            <LoaderCircle
-              v-if="loading"
-              class="animate-spin"
-            />
-            <Plus v-else />
-            {{ $t("roles.dialogs.create-role.action") }}
-          </Button>
-        </DialogFooter>
+            <div class="flex flex-col gap-1">
+              <p class="text-sm text-muted-foreground">
+                Rôles
+              </p>
+
+              <FormField
+                v-for="p in RolePermissions"
+                v-slot="{ value, handleChange }"
+                :key="p"
+                type="checkbox"
+                :value="p"
+                name="permissions"
+              >
+                <FormItem class="flex flex-row items-start gap-2 space-y-0">
+                  <FormControl>
+                    <Checkbox
+                      :model-value="value.includes(p)"
+                      @update:model-value="handleChange"
+                    />
+                  </FormControl>
+                  <FormLabel class="font-normal">
+                    {{ p }}
+                  </FormLabel>
+                </FormItem>
+              </FormField>
+            </div>
+          </FormItem>
+        </FormField>
       </form>
+
+      <DialogFooter class="p-6 pt-0">
+        <DialogClose as-child>
+          <Button
+            type="button"
+            variant="secondary"
+          >
+            <X />
+            {{ $t("btn.cancel") }}
+          </Button>
+        </DialogClose>
+        <Button
+          form="createRoleForm"
+          :disabled="loading"
+        >
+          <LoaderCircle
+            v-if="loading"
+            class="animate-spin"
+          />
+          <Plus v-else />
+          {{ $t("roles.dialogs.create-role.action") }}
+        </Button>
+      </DialogFooter>
     </DialogContent>
   </Dialog>
 </template>

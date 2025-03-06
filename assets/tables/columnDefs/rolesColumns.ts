@@ -11,12 +11,12 @@ export const columns = (t: I18nTools): ColumnDef<IBackRole>[] => [
     id: "select",
     header: ({ table }) => h(Checkbox, {
       "modelValue": table.getIsAllPageRowsSelected(),
-      "onUpdate:modelValue": (value: boolean) => table.toggleAllPageRowsSelected(!!value),
+      "onUpdate:modelValue": (value: boolean) => table.toggleAllPageRowsSelected(value),
       "ariaLabel": t("labels.table.select-all"),
     }),
     cell: ({ row }) => h(Checkbox, {
       "modelValue": row.getIsSelected(),
-      "onUpdate:modelValue": (value: boolean) => row.toggleSelected(!!value),
+      "onUpdate:modelValue": (value: boolean) => row.toggleSelected(value),
       "ariaLabel": t("labels.table.select-row"),
     }),
     enableSorting: false,
@@ -34,7 +34,7 @@ export const columns = (t: I18nTools): ColumnDef<IBackRole>[] => [
   },
   {
     accessorKey: "permissions",
-    header: () => h("div", {}, t("roles.table.headers.permissions")),
+    header: () => h("div", t("roles.table.headers.permissions")),
     cell: ({ row }) => {
       const permissions = row.getValue("permissions") as string[];
       const displayed = permissions.slice(0, 2);

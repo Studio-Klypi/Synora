@@ -108,7 +108,7 @@ function updateQueryParams() {
             </SelectContent>
           </Select>
           <CreateRoleDialog>
-            <Button>
+            <Button :disabled="disabledByPermission('roles.manage')">
               <Plus />
               <span>{{ t("roles.new") }}</span>
             </Button>

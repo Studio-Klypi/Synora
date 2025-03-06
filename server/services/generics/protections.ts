@@ -1,10 +1,11 @@
 import type { HttpRequest } from "~/types/generics/requests";
+import { HttpCode } from "~/types/generics/requests";
 import type { IProtectionAction, IProtectionOptions } from "~/types/generics/protections";
 import { getAuthCookies } from "~/server/services/generics/cookies";
 import * as errorService from "~/server/services/generics/errors";
 import * as authRepo from "~/server/database/repositories/auth/sessions";
+import * as mbrRepo from "~/server/database/repositories/companies/members";
 import * as cpyRepo from "~/server/database/repositories/companies/companies";
-import { HttpCode } from "~/types/generics/requests";
 import { AuthSessionNotFoundError } from "~/types/auth/sessions";
 import { CompanyNotFoundError } from "~/types/companies/companies";
 
@@ -24,19 +25,24 @@ export async function protect(req: HttpRequest, callback: IProtectionAction, opt
     const user = await authRepo.getRelatedUser(cookies);
     req.context.user = user;
 
-    if (req.path.startsWith("/api/companies")) {
-      const companyUuid = getRouterParam(req, "uuid");
+    const companyUuid = getRouterParam(req, "companyUuid");
+    if (!companyUuid) return await callback(req);
 
-      if (companyUuid) {
-        const company = await cpyRepo.get(user.uuid, companyUuid);
-        req.context.company = company;
-      }
-    }
+    const company = await cpyRepo.get(user.uuid, companyUuid);
+    req.context.company = company;
+
+    const role = await mbrRepo.getUserRole(user.uuid, company.uuid);
+    req.context.role = role;
 
     if (!options.permissions.length)
       return await callback(req);
 
-    // TODO: handle user permissions
+    if (!role || !role.permissions.some(p => options.permissions.includes(p)))
+      return errorService.throwError(req, {
+        code: HttpCode.UNAUTHORIZED,
+        message: "Not enough permissions to perform this!",
+      });
+
     return await callback(req);
   }
   catch (e) {

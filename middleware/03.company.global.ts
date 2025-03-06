@@ -12,4 +12,5 @@ export default defineNuxtRouteMiddleware(async (to) => {
   if (selected.value && selected.value.uuid === uuid) return;
 
   await store.selectCompany(uuid as string);
+  await useUserStore().recoverMyPermissions(uuid as string);
 });
