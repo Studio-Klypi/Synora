@@ -1,6 +1,6 @@
 import type { CompaniesState, IBackCompany, INewCompanyPayload } from "~/types/companies/companies";
 import type { IOpListResult } from "~/types/generics/database";
-import type { IBackRole } from "~/types/companies/roles";
+import type { IBackRole, INewRolePayload } from "~/types/companies/roles";
 
 export const useCompaniesStore = defineStore("companies", {
   state: (): CompaniesState => ({
@@ -8,6 +8,7 @@ export const useCompaniesStore = defineStore("companies", {
     selectedCompany: null,
     loading: false,
     loadingRoles: false,
+    creatingRole: false,
   }),
   actions: {
     async fetchUserCompanies() {
@@ -59,6 +60,7 @@ export const useCompaniesStore = defineStore("companies", {
         console.error(e);
       }
     },
+    // roles
     async fetchRoles(perPage: number = 20, page: number = 1) {
       if (!this.selectedCompany) return;
 
@@ -75,6 +77,30 @@ export const useCompaniesStore = defineStore("companies", {
       }
       finally {
         this.loadingRoles = false;
+      }
+    },
+    async createRole(payload: Omit<INewRolePayload, "companyUuid">) {
+      if (!this.selectedCompany) return;
+
+      this.creatingRole = true;
+
+      try {
+        const role = await $fetch<IBackRole>(`/api/companies/${this.selectedCompany.uuid}/roles/create`, {
+          method: "POST",
+          body: payload,
+        });
+
+        this.selectedCompany.roles = [
+          ...(this.selectedCompany.roles ?? []),
+          role,
+        ];
+      }
+      catch (e) {
+        // TODO: toast
+        console.error(e);
+      }
+      finally {
+        this.creatingRole = false;
       }
     },
   },

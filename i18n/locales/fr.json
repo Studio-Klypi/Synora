@@ -7,6 +7,7 @@
 
   "errors": {
     "fields": {
+      "name": "Veuillez entrer un nom valide.",
       "address": "Veuillez entrer au moins 1 caractère.",
       "email": "Veuillez entrer une adresse e-mail valide.",
       "phone": "Le mot de passe n'est pas assez fort.",
@@ -14,6 +15,7 @@
         "regex": "Le mot de passe n'est pas assez fort.",
         "no-match": "Les mots de passe ne correspondent pas."
       },
+      "multiple": "Vous devez sélectionner au moins un élément.",
       "siret": "Veuillez entrer un SIRET valide.",
       "required": "Le champ est requis."
     }
@@ -198,8 +200,20 @@
           "delete": "Supprimer"
         },
         "multiple": {
+          "manage-permissions": "Gérer les permissions",
           "delete": "Supprimer les rôles"
         }
+      }
+    },
+    "dialog": {
+      "create-role": {
+        "trigger": "Nouveau rôle",
+        "title": "Nouveau rôle",
+        "fields": {
+          "name": "Nom",
+          "permissions": "Permissions"
+        },
+        "action": "Ajouter le rôle"
       }
     },
     "new": "Nouveau rôle"

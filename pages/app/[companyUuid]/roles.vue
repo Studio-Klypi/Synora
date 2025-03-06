@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { getCoreRowModel, useVueTable } from "@tanstack/vue-table";
 import { columns } from "assets/tables/columnDefs/rolesColumns";
-import { Plus, Trash, LayoutGrid } from "lucide-vue-next";
+import { Plus, Trash, LayoutGrid, Tags } from "lucide-vue-next";
 import type { IBackCompany } from "~/types/companies/companies";
+import CreateRoleDialog from "~/components/library/roles/CreateRoleDialog.vue";
 
 definePageMeta({
   layout: "app-default",
@@ -71,6 +72,10 @@ function updateQueryParams() {
             align="end"
           >
             <DropdownMenuItem>
+              <Tags />
+              <span>{{ t("roles.table.actions.multiple.manage-permissions") }}</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
               <Trash />
               <span>{{ t("roles.table.actions.multiple.delete") }}</span>
             </DropdownMenuItem>
@@ -102,10 +107,12 @@ function updateQueryParams() {
               </SelectItem>
             </SelectContent>
           </Select>
-          <Button>
-            <Plus />
-            <span>{{ t("roles.new") }}</span>
-          </Button>
+          <CreateRoleDialog>
+            <Button>
+              <Plus />
+              <span>{{ t("roles.new") }}</span>
+            </Button>
+          </CreateRoleDialog>
         </div>
       </template>
     </header>

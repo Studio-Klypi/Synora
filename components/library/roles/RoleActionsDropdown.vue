@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Ellipsis } from "lucide-vue-next";
+import { Ellipsis, Pen, Trash } from "lucide-vue-next";
 import type { HTMLAttributes } from "vue";
 import type { IBackRole } from "~/types/companies/roles";
 
@@ -22,7 +22,12 @@ const props = defineProps<{
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end">
       <DropdownMenuItem>
-        Delete
+        <Pen />
+        {{ $t("roles.table.actions.single.edit") }}
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <Trash />
+        {{ $t("roles.table.actions.single.delete") }}
       </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
