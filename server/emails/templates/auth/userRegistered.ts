@@ -1,17 +1,14 @@
-import type { IEmailTemplateRegistration } from "~/types/generics/emails";
+import { render } from "@vue-email/render";
+import type { IEmailRegistry } from "~/types/generics/emails";
+import UserRegisteredTemplate from "~/server/emails/components/auth/UserRegisteredTemplate.vue";
 
-export const useUserRegisteredTemplate: IEmailTemplateRegistration = (options) => {
-  options = options as {
+export const useUserRegisteredTemplate: IEmailRegistry = async (options) => {
+  const props = options as {
     firstName: string;
   };
 
   return {
-    subject: `Bienvenue ${options.firstName}`,
-    body: {
-      text: `Bonjour, je suis Josh.
-
-C'est avec plaisir que je te souhaite la bienvenue sur Synora !`,
-      html: "",
-    },
+    text: await render(UserRegisteredTemplate, props, { plainText: true }),
+    html: await render(UserRegisteredTemplate, props, { pretty: true }),
   };
 };

@@ -1,7 +1,9 @@
 import { DatabaseConflictError, EntityNotFoundError } from "~/types/generics/errors";
+import type { EPermissions } from "~/types/security/permissions";
 
 export interface UserState {
   me: IUser | null;
+  permissions: EPermissions;
   loading: boolean;
 }
 

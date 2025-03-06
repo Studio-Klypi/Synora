@@ -1,0 +1,42 @@
+TableGroup Companies [color: #8F8DD8] {
+  Company
+  CompanyMember
+  Role
+}
+
+Table Company {
+  uuid uuid pk
+
+  name string
+  email string
+  phone string [null]
+  address string
+
+  corporateName string
+  siret string
+  siren string
+  dob datetime
+
+  createdAt datetime
+  updatedAt datetime
+}
+
+Table Role {
+  id int pk
+  companyUuid uuid unique [ref: > Company.uuid]
+
+  name string unique
+  permissions string[]
+
+  createdAt datetime
+  updatedAt datetime
+}
+
+Table CompanyMember {
+  userUuid uuid pk [ref: > User.uuid]
+  companyUuid uuid pk [ref: > Company.uuid]
+  roleId int [ref: > Role.id]
+
+  createdAt datetime
+  updatedAt datetime
+}

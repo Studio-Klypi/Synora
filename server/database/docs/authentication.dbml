@@ -1,3 +1,9 @@
+TableGroup Authentication [color: #CA4242] {
+  User
+  AuthSession
+  UserRequest
+}
+
 Enum UserRequestType {
   password
 }

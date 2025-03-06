@@ -1,17 +1,15 @@
-import type { IEmailTemplateRegistration } from "~/types/generics/emails";
-import { usePlatformUrl } from "~/server/services/generics/emails";
+import { render } from "@vue-email/render";
+import type { IEmailRegistry } from "~/types/generics/emails";
+import PasswordRequestTemplate from "~/server/emails/components/auth/PasswordRequestTemplate.vue";
 
-export const usePasswordRequestCreatedTemplate: IEmailTemplateRegistration = (options) => {
-  options = options as {
+export const usePasswordRequestCreatedTemplate: IEmailRegistry = async (options) => {
+  const props = options as {
     code: string;
     userUuid: string;
   };
 
   return {
-    subject: "Réinitialisation de ton mot de passe",
-    body: {
-      text: `Oh non, tu as oublié ton mot de passe ? Pas de soucis, voici un lien pour le réinitialiser : ${usePlatformUrl(`/security/resetPassword/${options.userUuid}/${options.code}`)} (attention, il n'est valable que 15 minutes)`,
-      html: "",
-    },
+    text: await render(PasswordRequestTemplate, props, { plainText: true }),
+    html: await render(PasswordRequestTemplate, props, { pretty: true }),
   };
 };

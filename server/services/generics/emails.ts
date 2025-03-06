@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
+import { render } from "@vue-email/render";
 import type { IEmailSendRequest } from "~/types/generics/emails";
 import { useMailer } from "#mailer";
 
@@ -33,12 +34,12 @@ export async function send(payload: IEmailSendRequest) {
     transporter: transporter(),
     options: {
       to: payload.to,
-      subject: payload.subject ?? payload.template.subject ?? "Sujet iconnu.",
+      subject: payload.subject ?? "Sujet iconnu.",
       fromEmail: mailerFromEmail,
       fromName: mailerFromName,
-      text: payload.template.body.text,
-      html: payload.template.body.html,
-      attachments: payload.attachments ?? payload.template.attachments ?? undefined,
+      text: payload.template.text,
+      html: payload.template.html,
+      attachments: payload.attachments ?? undefined,
     },
   }).catch(e => console.error(e, id));
 }
