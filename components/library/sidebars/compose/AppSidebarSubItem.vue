@@ -16,13 +16,44 @@ const path = computed(() => `/app/${company.value.uuid}`);
 <template>
   <SidebarMenuSubItem>
     <SidebarMenuSubButton as-child>
+      <NuxtLink
+        v-if="item.url.startsWith('http')"
+        :to="item.url"
+        target="_blank"
+      >
+        <span class="truncate">{{ $t(`navigation.${parent.label ? `${parent.label}.${group.label}` : group.label}.${item.label}`) }}</span>
+        <Badge
+          v-if="parent.new || group.new || item.new"
+          class="ml-auto"
+        >
+          {{ $t("labels.new") }}
+        </Badge>
+        <Badge
+          v-if="parent.planned || group.planned || item.planned"
+          variant="secondary"
+          class="ml-auto"
+        >
+          {{ $t("labels.planned") }}
+        </Badge>
+      </NuxtLink>
       <NuxtLinkLocale
+        v-else
         :to="`${path}${item.url}`"
         active-class="bg-sidebar-accent text-sidebar-accent-foreground"
       >
-        <span>{{ $t(`navigation.${parent.label ? `${parent.label}.${group.label}` : group.label}.${item.label}`) }}</span>
-        <Badge v-if="parent.new || group.new || item.new">
+        <span class="truncate">{{ $t(`navigation.${parent.label ? `${parent.label}.${group.label}` : group.label}.${item.label}`) }}</span>
+        <Badge
+          v-if="parent.new || group.new || item.new"
+          class="ml-auto"
+        >
           {{ $t("labels.new") }}
+        </Badge>
+        <Badge
+          v-if="parent.planned || group.planned || item.planned"
+          variant="secondary"
+          class="ml-auto"
+        >
+          {{ $t("labels.planned") }}
         </Badge>
       </NuxtLinkLocale>
     </SidebarMenuSubButton>
