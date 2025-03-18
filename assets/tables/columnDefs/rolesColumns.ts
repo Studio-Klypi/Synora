@@ -22,11 +22,11 @@ export const columns = (t: I18nTools): ColumnDef<IBackRole>[] => [
     enableSorting: false,
     enableHiding: false,
   },
-  {
+  /* {
     accessorKey: "id",
     header: () => h("div", "#"),
     cell: ({ row }) => h("div", { class: "text-muted-foreground" }, row.getValue("id")),
-  },
+  }, */
   {
     accessorKey: "name",
     header: () => h("div", {}, t("roles.table.headers.name")),
