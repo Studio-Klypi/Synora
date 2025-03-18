@@ -1,4 +1,4 @@
-import { Home, Tags } from "lucide-vue-next";
+import { Book, Home, Settings, Tags } from "lucide-vue-next";
 import type { INavSection } from "~/types/frontend/navigation";
 
 export const navSections: INavSection[] = [
@@ -21,6 +21,38 @@ export const navSections: INavSection[] = [
         icon: Tags,
         url: "/roles",
         new: true,
+      },
+      /* {
+        type: "item",
+        label: "users",
+        icon: Tags,
+        url: "/",
+        planned: true,
+      }, */
+      {
+        type: "group",
+        label: "settings",
+        planned: true,
+        icon: Settings,
+        children: [
+          {
+            type: "item",
+            label: "presentation",
+            url: "/settings/presentation",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    label: "resources",
+    planned: true,
+    children: [
+      {
+        type: "item",
+        label: "wiki",
+        icon: Book,
+        url: "https://wiki.synora.org/getting-started",
       },
     ],
   },

@@ -30,7 +30,8 @@
       "select-all": "Tout sélectionner"
     },
     "or": "Ou",
-    "new": "Nouveau"
+    "new": "Nouveau",
+    "planned": "WIP"
   },
   "filters": {
     "table": {
@@ -96,7 +97,16 @@
     "overview": "Vue d'ensemble",
     "administration": {
       "DEFAULT": "Administration",
-      "roles": "Rôles"
+      "roles": "Rôles",
+      "users": "Utilisateurs",
+      "settings": {
+        "DEFAULT": "Paramètres avancés",
+        "presentation": "Présentation"
+      }
+    },
+    "resources": {
+      "DEFAULT": "Ressources",
+      "wiki": "Documentation"
     }
   },
   "nav-actions": {
