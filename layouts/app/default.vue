@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Bell, Mail } from "lucide-vue-next";
 import ClientSidebar from "~/components/library/sidebars/ClientSidebar.vue";
 </script>
 
@@ -7,15 +8,23 @@ import ClientSidebar from "~/components/library/sidebars/ClientSidebar.vue";
     <ClientSidebar />
     <SidebarInset>
       <header class="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-        <div class="flex items-center gap-2 px-4">
+        <div class="flex w-full items-center gap-2 px-4">
           <SidebarTrigger class="-ml-1" />
-          <Separator
-            orientation="vertical"
-            class="mr-2 h-4"
-          />
-          <p class="italic text-muted-foreground">
-            breadcrumps
-          </p>
+
+          <div class="ml-auto">
+            <Button
+              variant="ghost"
+              size="icon"
+            >
+              <Bell />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+            >
+              <Mail />
+            </Button>
+          </div>
         </div>
       </header>
 
