@@ -31,7 +31,11 @@
     },
     "or": "Ou",
     "new": "Nouveau",
-    "planned": "WIP"
+    "planned": "WIP",
+    "permissions": {
+      "roles": "Rôles",
+      "companies": "Organisation"
+    }
   },
   "filters": {
     "table": {

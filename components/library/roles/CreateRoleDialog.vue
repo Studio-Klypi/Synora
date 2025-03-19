@@ -71,7 +71,7 @@ const submit = form.handleSubmit(async (values) => {
 
             <div class="flex flex-col gap-1">
               <p class="text-sm text-muted-foreground">
-                Rôles
+                {{ $t("labels.permissions.roles") }}
               </p>
 
               <FormField
@@ -94,6 +94,12 @@ const submit = form.handleSubmit(async (values) => {
                   </FormLabel>
                 </FormItem>
               </FormField>
+            </div>
+            <div class="flex flex-col gap-1">
+              <p class="text-sm text-muted-foreground">
+                {{ $t("labels.permissions.companies") }}
+              </p>
+
               <FormField
                 v-for="p in CompanyPermissions"
                 v-slot="{ value, handleChange }"
