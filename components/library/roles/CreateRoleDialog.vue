@@ -4,7 +4,7 @@ import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 import { NAME_REGEX } from "assets/constants";
-import { RolePermissions } from "~/types/security/permissions";
+import { CompanyPermissions, RolePermissions } from "~/types/security/permissions";
 
 const { t } = useI18n();
 
@@ -76,6 +76,26 @@ const submit = form.handleSubmit(async (values) => {
 
               <FormField
                 v-for="p in RolePermissions"
+                v-slot="{ value, handleChange }"
+                :key="p"
+                type="checkbox"
+                :value="p"
+                name="permissions"
+              >
+                <FormItem class="flex flex-row items-start gap-2 space-y-0">
+                  <FormControl>
+                    <Checkbox
+                      :model-value="value.includes(p)"
+                      @update:model-value="handleChange"
+                    />
+                  </FormControl>
+                  <FormLabel class="font-normal">
+                    {{ p }}
+                  </FormLabel>
+                </FormItem>
+              </FormField>
+              <FormField
+                v-for="p in CompanyPermissions"
                 v-slot="{ value, handleChange }"
                 :key="p"
                 type="checkbox"
