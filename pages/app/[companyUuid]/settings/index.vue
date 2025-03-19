@@ -79,7 +79,10 @@ async function deleteCompany() {
           <FormItem>
             <FormLabel>{{ text("fields.display-name") }}</FormLabel>
             <FormControl v-bind="componentField">
-              <Input placeholder="John Doe Association" />
+              <Input
+                placeholder="John Doe Association"
+                :disabled="disabledByPermission('company.edit.general')"
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -94,6 +97,7 @@ async function deleteCompany() {
               <Input
                 type="email"
                 placeholder="john.doe@association.xyz"
+                :disabled="disabledByPermission('company.edit.general')"
               />
             </FormControl>
             <FormMessage />
@@ -109,6 +113,7 @@ async function deleteCompany() {
               <Input
                 type="tel"
                 placeholder="01 23 45 67 89"
+                :disabled="disabledByPermission('company.edit.general')"
               />
             </FormControl>
             <FormMessage />
@@ -116,7 +121,7 @@ async function deleteCompany() {
         </FormField>
 
         <footer>
-          <Button :disabled="updating">
+          <Button :disabled="updating || disabledByPermission('company.edit.general')">
             <LoaderCircle v-if="updating" />
             <Save v-else />
             {{ t("btn.save") }}
