@@ -11,16 +11,22 @@ import ClientSidebar from "~/components/library/sidebars/ClientSidebar.vue";
         <div class="flex w-full items-center gap-2 px-4">
           <SidebarTrigger class="-ml-1" />
 
-          <div class="ml-auto">
+          <div class="ml-auto flex items-center gap-1">
             <Button
               variant="ghost"
               size="icon"
+              :disabled="true"
             >
               <Bell />
             </Button>
+            <Separator
+              orientation="vertical"
+              class="h-6"
+            />
             <Button
-              variant="outline"
+              variant="ghost"
               size="icon"
+              :disabled="true"
             >
               <Mail />
             </Button>
