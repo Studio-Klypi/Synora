@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { Save, LoaderCircle } from "lucide-vue-next";
+import { Save, LoaderCircle, CalendarIcon } from "lucide-vue-next";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 import { useForm } from "vee-validate";
-import { NAME_REGEX, PHONE_REGEX } from "assets/constants";
+import { NAME_REGEX, PHONE_REGEX, SIRET_REGEX } from "assets/constants";
+import { CalendarDate, DateFormatter, parseDate, toCalendarDate, fromDate, getLocalTimeZone, today } from "@internationalized/date";
+import { toDate } from "reka-ui/date";
 import type { IBackCompany } from "~/types/companies/companies";
 import ConfirmationDialog from "~/components/library/dialogs/ConfirmationDialog.vue";
 
@@ -16,12 +18,12 @@ const { t } = useI18n();
 
 useHead({
   title: t("tabs.company", {
-    page: t("settings.general.tab"),
+    page: t("settings.tab"),
     name: useBrandName(),
   }),
 });
 
-const text = (path: string) => t(`settings.general.${path}`);
+const text = (path: string) => t(`settings.${path}`);
 
 const store = useCompaniesStore();
 const updating = computed((): boolean => store.updatingCompany);
@@ -29,6 +31,14 @@ const deleting = computed((): boolean => store.deletingCompany);
 const company = computed(() => store.selectedCompany as IBackCompany);
 
 const confirmDelete = ref<boolean>(false);
+
+const df = new DateFormatter("fr-FR", {
+  dateStyle: "long",
+});
+const dob = computed({
+  get: () => form.values.dateOfBirth ? parseDate(form.values.dateOfBirth) : undefined,
+  set: val => val,
+});
 
 const schema = toTypedSchema(z.object({
   name: z.string({
@@ -38,6 +48,19 @@ const schema = toTypedSchema(z.object({
     message: t("errors.fields.required"),
   }).email(t("errors.fields.email")),
   phone: z.string().regex(PHONE_REGEX, t("errors.fields.phone")).optional(),
+
+  corporateName: z.string({
+    message: t("errors.fields.required"),
+  }).regex(NAME_REGEX, t("errors.fields.name")),
+  address: z.string({
+    message: t("errors.fields.required"),
+  }).min(1, t("errors.fields.address")),
+  siret: z.string({
+    message: t("errors.fields.required"),
+  }).regex(SIRET_REGEX, t("errors.fields.siret")).optional(),
+  dateOfBirth: z.string({
+    message: t("errors.fields.required"),
+  }),
 }));
 const form = useForm({
   validationSchema: schema,
@@ -45,10 +68,19 @@ const form = useForm({
     name: company.value.name,
     email: company.value.email,
     phone: company.value.phone ?? undefined,
+    corporateName: company.value.corporateName,
+    address: company.value.address,
+    siret: company.value.siret ?? undefined,
+    dateOfBirth: toCalendarDate(fromDate(new Date(company.value.dateOfBirth), getLocalTimeZone())).toString(),
   },
 });
+
 const save = form.handleSubmit(async (values) => {
-  await store.editGeneralInfo(values);
+  await store.editCompany({
+    ...values,
+    siren: values.siret?.substring(0, 9) ?? undefined,
+    dateOfBirth: new Date(values.dateOfBirth),
+  });
 });
 
 async function deleteCompany() {
@@ -120,6 +152,85 @@ async function deleteCompany() {
           </FormItem>
         </FormField>
 
+        <FormField
+          v-slot="{ componentField }"
+          name="corporateName"
+        >
+          <FormItem>
+            <FormLabel>{{ text("fields.corporate-name") }}</FormLabel>
+            <FormControl v-bind="componentField">
+              <Input
+                placeholder="John Doe Association"
+                :disabled="disabledByPermission('company.edit.general')"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+        <FormField
+          v-slot="{ componentField }"
+          name="address"
+        >
+          <FormItem>
+            <FormLabel>{{ text("fields.address") }}</FormLabel>
+            <FormControl v-bind="componentField">
+              <Input
+                placeholder="12 rue du Paradis, 71100 Paris Cedex, France"
+                :disabled="disabledByPermission('company.edit.general')"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+        <FormField
+          v-slot="{ componentField }"
+          name="siret"
+        >
+          <FormItem>
+            <FormLabel>{{ text("fields.siret") }} <span class="text-sm text-muted-foreground italic">{{ t("labels.fields.optional") }}</span></FormLabel>
+            <FormControl v-bind="componentField">
+              <Input
+                placeholder="01234567890123"
+                :disabled="disabledByPermission('company.edit.general')"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
+        <FormField name="dateOfBirth">
+          <FormItem class="flex flex-col">
+            <FormLabel>{{ text("fields.date-of-birth") }}</FormLabel>
+            <Popover>
+              <PopoverTrigger as-child>
+                <FormControl>
+                  <Button
+                    variant="outline"
+                    class="justify-start"
+                  >
+                    <span>{{ dob ? df.format(toDate(dob)) : t("labels.fields.pick-a-date") }}</span>
+                  </Button>
+                  <input hidden>
+                </FormControl>
+              </PopoverTrigger>
+              <PopoverContent class="w-auto p-0">
+                <Calendar
+                  v-model="dob"
+                  calendar-label="Date of birth"
+                  initial-focus
+                  :min-value="new CalendarDate(1900, 1, 1)"
+                  :max-value="today(getLocalTimeZone())"
+                  @update:model-value="(v: any) => {
+                    console.log(v);
+                    form.setFieldValue('dateOfBirth', v ? v.toString() : undefined)
+                  }"
+                />
+              </PopoverContent>
+            </Popover>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
         <footer>
           <Button :disabled="updating || disabledByPermission('company.edit.general')">
             <LoaderCircle v-if="updating" />
@@ -165,7 +276,7 @@ async function deleteCompany() {
               {{ text("danger-zone.delete.action") }}
             </Button>
             <ConfirmationDialog
-              caption="settings.general.danger-zone.delete.confirmation"
+              caption="settings.danger-zone.delete.confirmation"
               :action="deleteCompany"
               :open="confirmDelete"
               :loading="deleting"

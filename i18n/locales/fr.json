@@ -22,7 +22,8 @@
   },
   "labels": {
     "fields": {
-      "optional": "(facultatif)"
+      "optional": "(facultatif)",
+      "pick-a-date": "Choisis une date"
     },
     "table": {
       "selected-rows-count": "{count} ligne(s) sélectionnée(s)",
@@ -253,27 +254,28 @@
     "new": "Nouveau rôle"
   },
   "settings": {
-    "general": {
-      "tab": "Paramètres généraux",
-      "title": "Paramètres généraux",
-      "fields": {
-        "avatar": {
-          "label": "Photo de profil",
-          "action": "Charger une image"
-        },
-        "display-name": "Nom d'affichage",
-        "email": "Adresse de contact (sera publique)",
-        "phone": "Numéro de téléphone (sera public)",
-        "address": "Adresse postale"
+    "tab": "Paramètres généraux",
+    "title": "Paramètres généraux",
+    "fields": {
+      "avatar": {
+        "label": "Photo de profil",
+        "action": "Charger une image"
       },
-      "danger-zone": {
-        "title": "Zone de Danger",
-        "delete": {
-          "title": "Supprimer cette organisation",
-          "caption": "Une fois supprimée, elle disparaîtra à jamais. S'il te plaît, soit certains.",
-          "action": "Supprimer cette organisation",
-          "confirmation": "Cette action est définitive. Une fois confirmée, toutes les données relative à cette organisation seront supprimées et demeureront inaccessible. Es-tu sûr de vouloir poursuivre ?"
-        }
+      "display-name": "Nom d'affichage",
+      "email": "Adresse de contact (sera publique)",
+      "phone": "Numéro de téléphone (sera public)",
+      "corporate-name": "Raison sociale",
+      "address": "Adresse postale",
+      "siret": "Numéro SIRET",
+      "date-of-birth": "Date de création"
+    },
+    "danger-zone": {
+      "title": "Zone de Danger",
+      "delete": {
+        "title": "Supprimer cette organisation",
+        "caption": "Une fois supprimée, elle disparaîtra à jamais. S'il te plaît, soit certains.",
+        "action": "Supprimer cette organisation",
+        "confirmation": "Cette action est définitive. Une fois confirmée, toutes les données relative à cette organisation seront supprimées et demeureront inaccessible. Es-tu sûr de vouloir poursuivre ?"
       }
     }
   }
