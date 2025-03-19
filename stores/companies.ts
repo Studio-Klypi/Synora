@@ -13,6 +13,7 @@ export const useCompaniesStore = defineStore("companies", {
     selectedCompany: null,
     loading: false,
     updatingCompany: false,
+    deletingCompany: false,
     loadingRoles: false,
     creatingRole: false,
     deletingRole: false,
@@ -86,6 +87,32 @@ export const useCompaniesStore = defineStore("companies", {
       catch (e) {
         // TODO: toast
         console.error(e);
+      }
+    },
+    async deleteCompany() {
+      if (!this.selectedCompany) return;
+
+      this.deletingCompany = true;
+
+      try {
+        await $fetch(`/api/companies/${this.selectedCompany.uuid}`, {
+          method: "DELETE",
+        });
+        this.companies = this.companies.filter(c => c.uuid !== this.selectedCompany?.uuid);
+        this.selectedCompany = null;
+
+        navigateTo(useLocalePath()(
+          this.companies.length === 1
+            ? `/app/${this.companies[0].uuid}/`
+            : "/portal",
+        ));
+      }
+      catch (e) {
+        // TODO: toast
+        console.error(e);
+      }
+      finally {
+        this.deletingCompany = false;
       }
     },
     // roles

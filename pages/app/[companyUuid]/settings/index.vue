@@ -5,6 +5,7 @@ import * as z from "zod";
 import { useForm } from "vee-validate";
 import { NAME_REGEX, PHONE_REGEX } from "assets/constants";
 import type { IBackCompany } from "~/types/companies/companies";
+import ConfirmationDialog from "~/components/library/dialogs/ConfirmationDialog.vue";
 
 definePageMeta({
   layout: "app-default",
@@ -24,7 +25,10 @@ const text = (path: string) => t(`settings.general.${path}`);
 
 const store = useCompaniesStore();
 const updating = computed((): boolean => store.updatingCompany);
+const deleting = computed((): boolean => store.deletingCompany);
 const company = computed(() => store.selectedCompany as IBackCompany);
+
+const confirmDelete = ref<boolean>(false);
 
 const schema = toTypedSchema(z.object({
   name: z.string({
@@ -43,17 +47,16 @@ const form = useForm({
     phone: company.value.phone ?? undefined,
   },
 });
-
 const save = form.handleSubmit(async (values) => {
   await store.editGeneralInfo(values);
 });
+
+async function deleteCompany() {
+  await store.deleteCompany();
+}
 </script>
 
 <template>
-  <div role="main">
-    <h1 class="text-5xl">
-      {{ t("settings.general.title") }}
-    </h1>
   <div
     role="main"
     class="flex flex-col gap-6"
@@ -132,6 +135,41 @@ const save = form.handleSubmit(async (values) => {
           {{ text("fields.avatar.action") }}
         </Button>
       </div>
+    </div>
+
+    <div class="flex flex-col mt-4 gap-4">
+      <h2 class="text-3xl font-bold text-destructive">
+        {{ text("danger-zone.title") }}
+      </h2>
+
+      <Card class="border-destructive">
+        <CardContent class="p-0 divide-y">
+          <section class="p-4 flex flex-col lg:flex-row items-start lg:items-center lg:justify-between gap-6">
+            <header class="flex flex-col">
+              <h3 class="font-semibold">
+                {{ text("danger-zone.delete.title") }}
+              </h3>
+              <p>{{ text("danger-zone.delete.caption") }}</p>
+            </header>
+
+            <Button
+              variant="destructive"
+              :disabled="disabledByPermission('company.security.delete')"
+              @click="confirmDelete = true"
+            >
+              {{ text("danger-zone.delete.action") }}
+            </Button>
+            <ConfirmationDialog
+              caption="settings.general.danger-zone.delete.confirmation"
+              :action="deleteCompany"
+              :open="confirmDelete"
+              :loading="deleting"
+              @update:open="confirmDelete = $event"
+              @confirmed="confirmDelete = false"
+            />
+          </section>
+        </CardContent>
+      </Card>
     </div>
   </div>
 </template>

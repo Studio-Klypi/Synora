@@ -3,6 +3,7 @@ export const RolePermissions = [
   "roles.assign",
 ] as const;
 export const CompanyPermissions = [
+  "company.security.delete",
   "company.edit.general",
 ] as const;
 export const Permissions = [

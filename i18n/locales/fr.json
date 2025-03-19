@@ -261,6 +261,15 @@
         "email": "Adresse de contact (sera publique)",
         "phone": "Numéro de téléphone (sera public)",
         "address": "Adresse postale"
+      },
+      "danger-zone": {
+        "title": "Zone de Danger",
+        "delete": {
+          "title": "Supprimer cette organisation",
+          "caption": "Une fois supprimée, elle disparaîtra à jamais. S'il te plaît, soit certains.",
+          "action": "Supprimer cette organisation",
+          "confirmation": "Cette action est définitive. Une fois confirmée, toutes les données relative à cette organisation seront supprimées et demeureront inaccessible. Es-tu sûr de vouloir poursuivre ?"
+        }
       }
     }
   }

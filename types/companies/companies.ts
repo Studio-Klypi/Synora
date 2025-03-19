@@ -28,6 +28,7 @@ export interface CompaniesState {
   selectedCompany: IBackCompany | null;
   loading: boolean;
   updatingCompany: boolean;
+  deletingCompany: boolean;
   loadingRoles: boolean;
   creatingRole: boolean;
   deletingRole: boolean;

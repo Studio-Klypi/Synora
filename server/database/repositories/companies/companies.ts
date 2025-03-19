@@ -39,6 +39,14 @@ export async function update(uuid: string, payload: IUpdateCompanyPayload): Prom
   if (!company) throw new CompanyNotFoundError();
   return company;
 }
+export async function destroy(uuid: string): Promise<void> {
+  await prisma.company.delete({
+    where: {
+      uuid,
+    },
+  });
+  return;
+}
 
 export async function getFromUser(uuid: string): Promise<IOpListResult<IBackCompany>> {
   const list = await prisma.company.findMany({

@@ -58,6 +58,18 @@ export async function editCompanyGeneral(req: HttpRequest) {
     return errorService.throwError(req, { stack: JSON.stringify(e) });
   }
 }
+export async function deleteCompany(req: HttpRequest) {
+  const company = req.context.company;
+
+  try {
+    await cpyRepo.destroy(company.uuid);
+    req.node.res.statusCode = HttpCode.ACCEPTED;
+    return;
+  }
+  catch (e) {
+    return errorService.throwError(req, { stack: JSON.stringify(e) });
+  }
+}
 
 export async function getSelfCompanies(req: HttpRequest) {
   try {
