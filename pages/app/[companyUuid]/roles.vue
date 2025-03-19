@@ -46,7 +46,8 @@ function updateQueryParams() {
       page: page.value,
     },
   });
-  store.fetchRoles(perPage.value, page.value).then();
+  // store.fetchRoles(perPage.value, page.value).then();
+  store.fetchRoles(-1, 1).then(); // TODO: introduce real pagination
 }
 </script>
 
