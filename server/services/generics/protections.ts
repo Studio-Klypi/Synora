@@ -8,6 +8,7 @@ import * as mbrRepo from "~/server/database/repositories/companies/members";
 import * as cpyRepo from "~/server/database/repositories/companies/companies";
 import { AuthSessionNotFoundError } from "~/types/auth/sessions";
 import { CompanyNotFoundError } from "~/types/companies/companies";
+import type { EPermission } from "~/types/security/permissions";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function protect(req: HttpRequest, callback: IProtectionAction, options?: IProtectionOptions): Promise<any> {
@@ -37,7 +38,7 @@ export async function protect(req: HttpRequest, callback: IProtectionAction, opt
     if (!options.permissions.length)
       return await callback(req);
 
-    if (!role || !role.permissions.some(p => options.permissions.includes(p)))
+    if (!role || !role.permissions.some(p => options.permissions.includes(p as EPermission)))
       return errorService.throwError(req, {
         code: HttpCode.UNAUTHORIZED,
         message: "Not enough permissions to perform this!",
