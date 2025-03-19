@@ -230,6 +230,14 @@
         },
         "action": "Ajouter le rôle"
       },
+      "edit-role": {
+        "title": "Éditer le rôle",
+        "fields": {
+          "name": "Nom",
+          "permissions": "Permissions"
+        },
+        "action": "Enregistrer"
+      },
       "delete-confirmation": {
         "caption": "Attention, cette action est irréversible ! Êtes-vous sûr de vouloir supprimer ce rôle définitivement ?"
       }

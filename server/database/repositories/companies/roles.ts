@@ -1,6 +1,6 @@
 import type { Prisma } from "@prisma/client";
-import type { IBackRole, INewRolePayload } from "~/types/companies/roles";
-import { RoleConflictError } from "~/types/companies/roles";
+import type { IBackRole, INewRolePayload, IUpdateRolePayload } from "~/types/companies/roles";
+import { RoleConflictError, RoleNotFoundError } from "~/types/companies/roles";
 import prisma from "~/server/database";
 import type { IOpListQuery, IOpListResult } from "~/types/generics/database";
 
@@ -21,7 +21,22 @@ export async function create(payload: INewRolePayload): Promise<IBackRole> {
     }
   }
 }
-
+export async function update(identifier: {
+  id: number;
+  companyUuid: string;
+}, payload: IUpdateRolePayload): Promise<IBackRole> {
+  const role = await prisma.role.update({
+    where: {
+      ...identifier,
+    },
+    data: payload,
+    include: {
+      members: true,
+    },
+  });
+  if (!role) throw new RoleNotFoundError();
+  return role;
+}
 export async function destroy(id: number, companyUuid: string): Promise<IBackRole> {
   const role = await prisma.role.delete({
     where: {

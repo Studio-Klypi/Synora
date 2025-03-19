@@ -15,6 +15,7 @@ export interface IBackRole {
 }
 
 export type INewRolePayload = Omit<IBackRole, "id" | "createdAt" | "updatedAt" | "company" | "members">;
+export type IUpdateRolePayload = Partial<INewRolePayload>;
 
 export class RoleConflictError extends DatabaseConflictError {}
 export class RoleNotFoundError extends EntityNotFoundError {}

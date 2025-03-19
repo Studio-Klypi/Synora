@@ -4,6 +4,7 @@ import type { HTMLAttributes } from "vue";
 import type { IBackRole } from "~/types/companies/roles";
 import ConfirmationDialog from "~/components/library/dialogs/ConfirmationDialog.vue";
 import CreateRoleDialog from "~/components/library/roles/CreateRoleDialog.vue";
+import EditRoleDialog from "~/components/library/roles/EditRoleDialog.vue";
 
 const props = defineProps<{
   role: IBackRole;
@@ -37,6 +38,7 @@ async function deleteRole() {
     <DropdownMenuContent align="end">
       <DropdownMenuItem
         :disabled="disabledByPermission('roles.manage')"
+        @select="editRole = true"
       >
         <Pen />
         {{ $t("roles.table.actions.single.edit") }}
@@ -59,5 +61,9 @@ async function deleteRole() {
     @update:open="deleteAlert = $event"
     @confirmed="deleteAlert = false"
   />
-  <CreateRoleDialog />
+  <EditRoleDialog
+    :open="editRole"
+    :role="role"
+    @update:open="editRole = $event"
+  />
 </template>

@@ -24,5 +24,6 @@ const companies = computed(() => store.getReducedCompanies);
     <SidebarFooter>
       <ClientSidebarUser />
     </SidebarFooter>
+    <SidebarRail />
   </Sidebar>
 </template>

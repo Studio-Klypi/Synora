@@ -39,12 +39,12 @@ export const columns = (t: I18nTools): ColumnDef<IBackRole>[] => [
       const permissions = row.getValue("permissions") as string[];
       const displayed = permissions.slice(0, 2);
 
-      let children = [...displayed.map(p => h(Badge, { variant: "secondary" }, p))];
+      let children = [...displayed.map(p => h(Badge, { variant: "secondary", class: "truncate" }, p))];
       if (permissions.length > 2) children = [
         ...children,
         h(
           Badge,
-          { variant: "outline" },
+          { variant: "outline", class: "whitespace-nowrap" },
           `+ ${Math.min(permissions.length - displayed.length, 99)}`,
         ),
       ];
@@ -52,7 +52,7 @@ export const columns = (t: I18nTools): ColumnDef<IBackRole>[] => [
       return h(
         "div",
         {
-          class: "flex gap-1 flex-wrap",
+          class: "flex gap-1",
         },
         children,
       );
