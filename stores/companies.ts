@@ -150,6 +150,29 @@ export const useCompaniesStore = defineStore("companies", {
         this.deletingRole = false;
       }
     },
+    async deleteRoles(roles: number[]) {
+      if (!this.selectedCompany) return;
+
+      this.deletingRole = true;
+
+      try {
+        await $fetch(`/api/companies/${this.selectedCompany.uuid}/roles`, {
+          method: "DELETE",
+          body: {
+            roles,
+          },
+        });
+
+        this.selectedCompany.roles = this.selectedCompany.roles?.filter(r => !roles.includes(r.id));
+      }
+      catch (e) {
+        // TODO: toast
+        console.error(e);
+      }
+      finally {
+        this.deletingRole = false;
+      }
+    },
   },
   getters: {
     getCompanies: state => state.companies,

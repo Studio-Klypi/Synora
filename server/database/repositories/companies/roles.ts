@@ -47,6 +47,17 @@ export async function destroy(id: number, companyUuid: string): Promise<IBackRol
   if (!role) throw new RoleNotFoundError();
   return role;
 }
+export async function destroyMany(ids: number[], companyUuid: string): Promise<void> {
+  await prisma.role.deleteMany({
+    where: {
+      id: {
+        in: ids,
+      },
+      companyUuid,
+    },
+  });
+  return;
+}
 
 export async function getList(uuid: string, options: IOpListQuery = {
   limit: {

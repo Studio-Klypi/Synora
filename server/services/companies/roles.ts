@@ -64,6 +64,21 @@ export async function deleteRole(req: HttpRequest) {
     return errorService.throwError(req, { stack: JSON.stringify(e) });
   }
 }
+export async function deleteRoles(req: HttpRequest) {
+  const company = req.context.company;
+  const { roles } = await readBody<{
+    roles: number[];
+  }>(req);
+
+  try {
+    await roleRepo.destroyMany(roles, company.uuid);
+    req.node.res.statusCode = HttpCode.ACCEPTED;
+    return;
+  }
+  catch (e) {
+    return errorService.throwError(req, { stack: JSON.stringify(e) });
+  }
+}
 
 export async function getRoles(req: HttpRequest) {
   const company = req.context.company;

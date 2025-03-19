@@ -239,6 +239,9 @@
       },
       "delete-confirmation": {
         "caption": "Attention, cette action est irréversible ! Êtes-vous sûr de vouloir supprimer ce rôle définitivement ?"
+      },
+      "multiple-delete-confirmation": {
+        "caption": "Attention, cette action est irréversible ! Êtes-vous sûr de vouloir supprimer ces rôles définitivement ?"
       }
     },
     "new": "Nouveau rôle"

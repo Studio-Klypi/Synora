@@ -4,6 +4,7 @@ import { columns } from "assets/tables/columnDefs/rolesColumns";
 import { Plus, Trash, LayoutGrid, Tags } from "lucide-vue-next";
 import type { IBackCompany } from "~/types/companies/companies";
 import CreateRoleDialog from "~/components/library/roles/CreateRoleDialog.vue";
+import ConfirmationDialog from "~/components/library/dialogs/ConfirmationDialog.vue";
 
 definePageMeta({
   layout: "app-default",
@@ -13,11 +14,13 @@ definePageMeta({
 const { t } = useI18n();
 const store = useCompaniesStore();
 const loadingRoles = computed(() => store.loadingRoles);
+const deletingRole = computed(() => store.deletingRole);
 const company = computed(() => store.selectedCompany as IBackCompany);
 
 const route = useRoute();
 const perPage = ref<number>(Number(route.query.perPage ?? 20));
 const page = ref<number>(Number(route.query.page ?? 1));
+const deleteRolesConfirmation = ref<boolean>(false);
 
 useHead({
   title: t("tabs.company", {
@@ -31,8 +34,8 @@ const table = useVueTable({
   get columns() { return columns(t); },
   getCoreRowModel: getCoreRowModel(),
 });
-const hasSelected = computed(() => table.getIsSomeRowsSelected() || table.getIsAllRowsSelected());
-const rowsSelected = computed(() => table.getFilteredSelectedRowModel().rows.map(r => Number(r.id)));
+const rowsSelected = computed(() => table.getFilteredSelectedRowModel().rows.map(r => r.original));
+const hasSelected = computed(() => !!rowsSelected.value.length);
 
 watch(perPage, updateQueryParams);
 watch(page, updateQueryParams);
@@ -49,6 +52,11 @@ function updateQueryParams() {
   // store.fetchRoles(perPage.value, page.value).then();
   store.fetchRoles(-1, 1).then(); // TODO: introduce real pagination
 }
+
+async function deleteSelectedRoles() {
+  await store.deleteRoles(rowsSelected.value.map(r => r.id));
+  table.toggleAllRowsSelected(false);
+}
 </script>
 
 <template>
@@ -61,10 +69,21 @@ function updateQueryParams() {
         <p class="flex-1 text-sm text-muted-foreground">
           {{ t("labels.table.selected-rows-count", { count: rowsSelected.length }) }}.
         </p>
-        <Button variant="destructive">
+        <Button
+          variant="destructive"
+          @click="deleteRolesConfirmation = true"
+        >
           <Trash />
           <span>{{ t("roles.table.actions.multiple.delete") }}</span>
         </Button>
+        <ConfirmationDialog
+          caption="roles.dialogs.multiple-delete-confirmation.caption"
+          :open="deleteRolesConfirmation"
+          :action="deleteSelectedRoles"
+          :loading="deletingRole"
+          @update:open="deleteRolesConfirmation = $event"
+          @confirmed="deleteRolesConfirmation = false"
+        />
       </template>
       <template v-else>
         <Input
