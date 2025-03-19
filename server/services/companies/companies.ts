@@ -1,6 +1,6 @@
 import type { HttpRequest } from "~/types/generics/requests";
 import { HttpCode } from "~/types/generics/requests";
-import type { INewCompanyPayload } from "~/types/companies/companies";
+import type { INewCompanyPayload, IUpdateGeneralCompanyPayload } from "~/types/companies/companies";
 import * as cpyRepo from "~/server/database/repositories/companies/companies";
 import * as mbrRepo from "~/server/database/repositories/companies/members";
 import * as errorService from "~/server/services/generics/errors";
@@ -42,6 +42,19 @@ export async function createCompany(req: HttpRequest) {
   }
   catch (e) {
     console.error(e);
+    return errorService.throwError(req, { stack: JSON.stringify(e) });
+  }
+}
+export async function editCompanyGeneral(req: HttpRequest) {
+  const company = req.context.company;
+  const payload = await readBody<IUpdateGeneralCompanyPayload>(req);
+
+  try {
+    const updated = await cpyRepo.update(company.uuid, payload);
+    req.node.res.statusCode = HttpCode.ACCEPTED;
+    return cpyRepo.purify(updated);
+  }
+  catch (e) {
     return errorService.throwError(req, { stack: JSON.stringify(e) });
   }
 }

@@ -1,4 +1,9 @@
-import type { CompaniesState, IBackCompany, INewCompanyPayload } from "~/types/companies/companies";
+import type {
+  CompaniesState,
+  IBackCompany,
+  INewCompanyPayload,
+  IUpdateGeneralCompanyPayload,
+} from "~/types/companies/companies";
 import type { IOpListResult } from "~/types/generics/database";
 import type { IBackRole, INewRolePayload, IUpdateRolePayload } from "~/types/companies/roles";
 
@@ -7,6 +12,7 @@ export const useCompaniesStore = defineStore("companies", {
     companies: [],
     selectedCompany: null,
     loading: false,
+    updatingCompany: false,
     loadingRoles: false,
     creatingRole: false,
     deletingRole: false,
@@ -49,6 +55,27 @@ export const useCompaniesStore = defineStore("companies", {
       }
 
       return createdCompany;
+    },
+    async editGeneralInfo(payload: IUpdateGeneralCompanyPayload) {
+      if (!this.selectedCompany) return;
+
+      this.updatingCompany = true;
+
+      try {
+        const company = await $fetch<IBackCompany>(`/api/companies/${this.selectedCompany.uuid}/edit/general`, {
+          method: "PUT",
+          body: payload,
+        });
+        // todo: toast
+        this.selectedCompany = company;
+      }
+      catch (e) {
+        // TODO: toast
+        console.error(e);
+      }
+      finally {
+        this.updatingCompany = false;
+      }
     },
     async selectCompany(uuid: string) {
       try {

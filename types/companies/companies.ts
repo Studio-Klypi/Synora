@@ -20,11 +20,14 @@ export interface IBackCompany {
 }
 
 export type INewCompanyPayload = Omit<IBackCompany, "uuid" | "createdAt" | "updatedAt" | "roles" | "members">;
+export type IUpdateGeneralCompanyPayload = Pick<INewCompanyPayload, "name" | "email" | "phone">;
+export type IUpdateCompanyPayload = Partial<IUpdateGeneralCompanyPayload>;
 
 export interface CompaniesState {
   companies: IBackCompany[];
   selectedCompany: IBackCompany | null;
   loading: boolean;
+  updatingCompany: boolean;
   loadingRoles: boolean;
   creatingRole: boolean;
   deletingRole: boolean;

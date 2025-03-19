@@ -10,7 +10,7 @@
       "name": "Veuillez entrer un nom valide.",
       "address": "Veuillez entrer au moins 1 caractère.",
       "email": "Veuillez entrer une adresse e-mail valide.",
-      "phone": "Le mot de passe n'est pas assez fort.",
+      "phone": "Veuillez entrer un numéro de téléphone valide.",
       "password": {
         "regex": "Le mot de passe n'est pas assez fort.",
         "no-match": "Les mots de passe ne correspondent pas."
@@ -46,6 +46,7 @@
   "btn": {
     "cancel": "Annuler",
     "confirm": "Confirmer",
+    "save": "Enregistrer",
     "backToHome": "Retour au site",
     "backToLogin": "Retour à la connexion",
     "log-out": "Déconnexion"
@@ -251,11 +252,15 @@
     "general": {
       "tab": "Paramètres généraux",
       "title": "Paramètres généraux",
-      "sections": {
-        "display-name": {
-          "title": "Nom d'affichage",
-          "caption": ""
-        }
+      "fields": {
+        "avatar": {
+          "label": "Photo de profil",
+          "action": "Charger une image"
+        },
+        "display-name": "Nom d'affichage",
+        "email": "Adresse de contact (sera publique)",
+        "phone": "Numéro de téléphone (sera public)",
+        "address": "Adresse postale"
       }
     }
   }
