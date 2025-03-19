@@ -29,7 +29,6 @@ export const useUserStore = defineStore("user", {
         const { data } = await useFetch<string[]>(`/api/companies/${uuid}/authorizations`);
         if (!data.value) return;
         this.permissions = data.value as EPermissions;
-        console.log(this.permissions);
       }
       catch (e) {
         // TODO: toast

@@ -118,6 +118,9 @@ export const useCompaniesStore = defineStore("companies", {
         if (!this.selectedCompany.roles) return;
 
         this.selectedCompany.roles = (this.selectedCompany.roles ?? []).map(r => r.id === role.id ? role : r);
+
+        const userStore = useUserStore();
+        if ((role.members ?? []).findIndex(m => m.userUuid === userStore.getUser?.uuid) >= 0) await userStore.recoverMyPermissions(this.selectedCompany.uuid);
       }
       catch (e) {
         // TODO: toast
