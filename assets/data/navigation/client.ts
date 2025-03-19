@@ -37,7 +37,7 @@ export const navSections: INavSection[] = [
           {
             type: "item",
             label: "general",
-            planned: true,
+            new: true,
             url: "/settings",
           },
         ],
