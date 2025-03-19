@@ -1,8 +1,10 @@
 import type { INewUserPayload, IUser, IUserLoginPayload, UserState } from "~/types/auth/users";
+import type { EPermissions } from "~/types/security/permissions";
 
 export const useUserStore = defineStore("user", {
   state: (): UserState => ({
     me: null,
+    permissions: [],
     loading: false,
   }),
   actions: {
@@ -20,6 +22,17 @@ export const useUserStore = defineStore("user", {
       }
       finally {
         this.loading = false;
+      }
+    },
+    async recoverMyPermissions(uuid: string) {
+      try {
+        const { data } = await useFetch<string[]>(`/api/companies/${uuid}/authorizations`);
+        if (!data.value) return;
+        this.permissions = data.value as EPermissions;
+      }
+      catch (e) {
+        // TODO: toast
+        console.error(e);
       }
     },
     async registerUser(payload: INewUserPayload) {
@@ -48,6 +61,7 @@ export const useUserStore = defineStore("user", {
           method: "POST",
           body: payload,
         });
+        useCompaniesStore().fetchUserCompanies().then();
         await navigateTo(useLocalePath()("/portal"));
       }
       catch (e) {

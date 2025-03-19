@@ -8,7 +8,7 @@ Discover the brand new Association specific ERP. Manage your accounting, your me
 - [Changelogs](#changelogs)
 
 ## Changelogs
-Check changelogs in the [changelogs directory](/changelogs). The latest changelog at date is available [here](/changelogs/2025-02-26.md).
+Check changelogs in the [changelogs directory](/changelogs). The latest changelog at date is available [here](/changelogs/2025-03-03.md).
 <br>
 <br>
 <br>

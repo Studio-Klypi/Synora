@@ -1,3 +1,5 @@
+import type { IUser } from "~/types/auth/users";
+
 export default defineNuxtRouteMiddleware(async () => {
   const token = useCookie("authToken");
   const userUuid = useCookie("userUuid");
@@ -5,9 +7,10 @@ export default defineNuxtRouteMiddleware(async () => {
   if (!token || !userUuid) return;
 
   const store = useUserStore();
-  const me = computed(() => store.getUser);
+  const me = computed<IUser | null>(() => store.getUser);
 
   if (me.value) return;
 
   await store.recoverMe();
+  await useCompaniesStore().fetchUserCompanies();
 });

@@ -4,31 +4,122 @@
   "brand": {
     "name": "Synora"
   },
+
   "errors": {
     "fields": {
+      "name": "Veuillez entrer un nom valide.",
       "address": "Veuillez entrer au moins 1 caractère.",
       "email": "Veuillez entrer une adresse e-mail valide.",
-      "phone": "Le mot de passe n'est pas assez fort.",
+      "phone": "Veuillez entrer un numéro de téléphone valide.",
       "password": {
         "regex": "Le mot de passe n'est pas assez fort.",
         "no-match": "Les mots de passe ne correspondent pas."
       },
+      "multiple": "Vous devez sélectionner au moins un élément.",
+      "siret": "Veuillez entrer un SIRET valide.",
       "required": "Le champ est requis."
     }
   },
   "labels": {
     "fields": {
-      "optional": "(facultatif)"
+      "optional": "(facultatif)",
+      "pick-a-date": "Choisis une date"
+    },
+    "table": {
+      "selected-rows-count": "{count} ligne(s) sélectionnée(s)",
+      "select-row": "Sélectionner la ligne",
+      "select-all": "Tout sélectionner"
+    },
+    "or": "Ou",
+    "new": "Nouveau",
+    "planned": "WIP",
+    "permissions": {
+      "roles": "Rôles",
+      "companies": "Organisation"
+    }
+  },
+  "filters": {
+    "table": {
+      "perPage": {
+        "20": "20 par page",
+        "50": "50 par page",
+        "100": "100 par page",
+        "all": "Tout"
+      }
     }
   },
   "btn": {
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "save": "Enregistrer",
     "backToHome": "Retour au site",
-    "backToLogin": "Retour à la connexion"
+    "backToLogin": "Retour à la connexion",
+    "log-out": "Déconnexion"
+  },
+  "tabs": {
+    "company": "{page} · {name}"
+  },
+  "dialogs": {
+    "confirmation": {
+      "title": "Êtes-vous sûr ?",
+      "caption": "Cette action demande votre confirmation. Êtes-vous sûr de vouloir poursuivre la démarche ?"
+    },
+    "create-company": {
+      "title": "Nouvelle organisation",
+      "trigger": "Nouvelle organisation",
+      "fields": {
+        "name": {
+          "label": "Nom",
+          "placeholder": "Entrez le nom d'affichage...",
+          "error": "Veuillez entrer un nom valide."
+        },
+        "email": "E-Mail",
+        "phone": "Téléphone",
+        "address": "Adresse postale",
+        "corporate-name": {
+          "label": "Raison sociale",
+          "placeholder": "Entrez la raison sociale...",
+          "error": "Veuillez entrer une raison sociale valide."
+        },
+        "siret": "SIRET",
+        "date-of-birth": {
+          "label": "Date de création",
+          "placeholder": "Date de création...",
+          "error": "Veuillez entrer une date de création valide."
+        },
+        "terms": "J'atteste être moi-même membre de cette organisation."
+      },
+      "actions": {
+        "create": "Ajouter l'organisation"
+      }
+    }
   },
   "links": {
     "tou": "Conditions d'Utilisation",
     "policies": "Mentions légales"
   },
+
+  "navigation": {
+    "overview": "Vue d'ensemble",
+    "administration": {
+      "DEFAULT": "Administration",
+      "roles": "Rôles",
+      "users": "Utilisateurs",
+      "settings": {
+        "DEFAULT": "Paramètres",
+        "general": "Général"
+      }
+    },
+    "resources": {
+      "DEFAULT": "Ressources",
+      "wiki": "Documentation"
+    }
+  },
+  "nav-actions": {
+    "label": "Mes autres organisations",
+    "new-company": "Ajouter une organisation"
+  },
+
   "register": {
     "tab": "Créer mon compte {name}",
     "title": "Inscription",
@@ -100,6 +191,92 @@
     },
     "actions": {
       "confirmUpdate": "Mettre à jour"
+    }
+  },
+  "portal": {
+    "tab": "{name}, Mes organisations",
+    "title": "Sélectionne une organisation",
+    "empty": {
+      "label": "Tu n'as aucune organisation pour le moment",
+      "action": "Ajouter mon organisation"
+    },
+    "joinAdminPanel": "Rejoindre le panneau Administrateur"
+  },
+
+  "overview": {
+    "tab": "Vue d'ensemble"
+  },
+
+  "roles": {
+    "tab": "Rôles",
+    "table": {
+      "headers": {
+        "name": "Nom",
+        "permissions": "Permissions",
+        "members": "Membres"
+      },
+      "actions": {
+        "trigger": "Actions",
+        "single": {
+          "edit": "Éditer",
+          "delete": "Supprimer"
+        },
+        "multiple": {
+          "delete": "Supprimer les rôles"
+        }
+      }
+    },
+    "dialogs": {
+      "create-role": {
+        "trigger": "Nouveau rôle",
+        "title": "Nouveau rôle",
+        "fields": {
+          "name": "Nom",
+          "permissions": "Permissions"
+        },
+        "action": "Ajouter le rôle"
+      },
+      "edit-role": {
+        "title": "Éditer le rôle",
+        "fields": {
+          "name": "Nom",
+          "permissions": "Permissions"
+        },
+        "action": "Enregistrer"
+      },
+      "delete-confirmation": {
+        "caption": "Attention, cette action est irréversible ! Êtes-vous sûr de vouloir supprimer ce rôle définitivement ?"
+      },
+      "multiple-delete-confirmation": {
+        "caption": "Attention, cette action est irréversible ! Êtes-vous sûr de vouloir supprimer ces rôles définitivement ?"
+      }
+    },
+    "new": "Nouveau rôle"
+  },
+  "settings": {
+    "tab": "Paramètres généraux",
+    "title": "Paramètres généraux",
+    "fields": {
+      "avatar": {
+        "label": "Photo de profil",
+        "action": "Charger une image"
+      },
+      "display-name": "Nom d'affichage",
+      "email": "Adresse de contact (sera publique)",
+      "phone": "Numéro de téléphone (sera public)",
+      "corporate-name": "Raison sociale",
+      "address": "Adresse postale",
+      "siret": "Numéro SIRET",
+      "date-of-birth": "Date de création"
+    },
+    "danger-zone": {
+      "title": "Zone de Danger",
+      "delete": {
+        "title": "Supprimer cette organisation",
+        "caption": "Une fois supprimée, elle disparaîtra à jamais. S'il te plaît, soit certains.",
+        "action": "Supprimer cette organisation",
+        "confirmation": "Cette action est définitive. Une fois confirmée, toutes les données relative à cette organisation seront supprimées et demeureront inaccessible. Es-tu sûr de vouloir poursuivre ?"
+      }
     }
   }
 }

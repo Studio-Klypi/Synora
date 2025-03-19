@@ -1,14 +1,10 @@
 import type { IAnyComposed } from "~/types/generics/objects";
 
-export interface IEmailBody {
-  text: string;
-  html: string;
-}
+export type IEmailComponent = Component;
 
 export interface IEmailTemplate {
-  subject?: string;
-  body: IEmailBody;
-  attachments?: IEmailAttachment[];
+  html: string;
+  text: string;
 }
 
 export interface IEmailAttachment {
@@ -19,9 +15,9 @@ export interface IEmailAttachment {
 
 export interface IEmailSendRequest {
   to: string;
-  subject?: string;
+  subject: string;
   template: IEmailTemplate;
   attachments?: IEmailAttachment[];
 }
 
-export type IEmailTemplateRegistration = (options?: IAnyComposed) => IEmailTemplate;
+export type IEmailRegistry = (options: IAnyComposed) => Promise<IEmailTemplate>;

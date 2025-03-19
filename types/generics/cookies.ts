@@ -7,5 +7,6 @@ export interface ICookiesOptions {
 export const authCookiesOptions: ICookiesOptions = {
   path: "/",
   httpOnly: true,
-  secure: true,
+  // todo: secure: true,
+  secure: false,
 };
