@@ -3,7 +3,6 @@ import { Ellipsis, Pen, Trash } from "lucide-vue-next";
 import type { HTMLAttributes } from "vue";
 import type { IBackRole } from "~/types/companies/roles";
 import ConfirmationDialog from "~/components/library/dialogs/ConfirmationDialog.vue";
-import CreateRoleDialog from "~/components/library/roles/CreateRoleDialog.vue";
 import EditRoleDialog from "~/components/library/roles/EditRoleDialog.vue";
 
 const props = defineProps<{
