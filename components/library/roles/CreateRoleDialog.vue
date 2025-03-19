@@ -5,7 +5,6 @@ import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 import { NAME_REGEX } from "assets/constants";
 import { RolePermissions } from "~/types/security/permissions";
-import type { IBackRole } from "~/types/companies/roles";
 
 const { t } = useI18n();
 
