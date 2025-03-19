@@ -215,7 +215,6 @@
           "delete": "Supprimer"
         },
         "multiple": {
-          "manage-permissions": "Gérer les permissions",
           "delete": "Supprimer les rôles"
         }
       }

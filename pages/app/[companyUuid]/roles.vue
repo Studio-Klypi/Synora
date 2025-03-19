@@ -61,27 +61,10 @@ function updateQueryParams() {
         <p class="flex-1 text-sm text-muted-foreground">
           {{ t("labels.table.selected-rows-count", { count: rowsSelected.length }) }}.
         </p>
-        <DropdownMenu>
-          <DropdownMenuTrigger as-child>
-            <Button>
-              <LayoutGrid />
-              <span>{{ t("roles.table.actions.trigger") }}</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            side="bottom"
-            align="end"
-          >
-            <DropdownMenuItem>
-              <Tags />
-              <span>{{ t("roles.table.actions.multiple.manage-permissions") }}</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Trash />
-              <span>{{ t("roles.table.actions.multiple.delete") }}</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Button variant="destructive">
+          <Trash />
+          <span>{{ t("roles.table.actions.multiple.delete") }}</span>
+        </Button>
       </template>
       <template v-else>
         <Input
