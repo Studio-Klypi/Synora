@@ -11,6 +11,7 @@ import { CompanyNotFoundError } from "~/types/companies/companies";
 export function purify(company: IBackCompany): IBackCompany {
   const json = { ...company };
   delete json.roles;
+  delete json.members;
   return json as IBackCompany;
 }
 
@@ -23,7 +24,11 @@ export async function create(payload: INewCompanyPayload): Promise<IBackCompany>
       },
     },
     include: {
-      roles: true,
+      roles: {
+        include: {
+          members: true,
+        },
+      },
     },
   });
 }
@@ -34,6 +39,13 @@ export async function update(uuid: string, payload: IUpdateCompanyPayload): Prom
     },
     data: {
       ...payload,
+    },
+    include: {
+      roles: {
+        include: {
+          members: true,
+        },
+      },
     },
   });
   if (!company) throw new CompanyNotFoundError();
@@ -79,11 +91,22 @@ export async function get(userUuid: string, uuid: string): Promise<IBackCompany>
         },
       },
     },
+    include: {
+      members: {
+        include: {
+          user: true,
+        },
+      },
+      roles: {
+        include: {
+          members: true,
+        },
+      },
+    },
   });
   if (!company) throw new CompanyNotFoundError();
   return {
     ...company,
-    members: [],
-    roles: [],
+    roles: company.roles.sort((a, b) => (a.id > b.id ? 1 : -1)),
   };
 }
