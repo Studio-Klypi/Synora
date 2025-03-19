@@ -32,13 +32,13 @@ export const navSections: INavSection[] = [
       {
         type: "group",
         label: "settings",
-        planned: true,
         icon: Settings,
         children: [
           {
             type: "item",
-            label: "presentation",
-            url: "/settings/presentation",
+            label: "general",
+            planned: true,
+            url: "/settings",
           },
         ],
       },

@@ -100,8 +100,8 @@
       "roles": "Rôles",
       "users": "Utilisateurs",
       "settings": {
-        "DEFAULT": "Paramètres avancés",
-        "presentation": "Présentation"
+        "DEFAULT": "Paramètres",
+        "general": "Général"
       }
     },
     "resources": {
@@ -200,6 +200,7 @@
   "overview": {
     "tab": "Vue d'ensemble"
   },
+
   "roles": {
     "tab": "Rôles",
     "table": {
@@ -245,5 +246,17 @@
       }
     },
     "new": "Nouveau rôle"
+  },
+  "settings": {
+    "general": {
+      "tab": "Paramètres généraux",
+      "title": "Paramètres généraux",
+      "sections": {
+        "display-name": {
+          "title": "Nom d'affichage",
+          "caption": ""
+        }
+      }
+    }
   }
 }
