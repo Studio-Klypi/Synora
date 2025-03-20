@@ -71,33 +71,12 @@ async function deleteSelectedRoles() {
           type="search"
           placeholder="Search..."
         />
-        <div class="flex gap-4">
-          <Select v-model="perPage">
-            <SelectTrigger class="sm:w-min gap-2">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent align="end">
-              <SelectItem :value="20">
-                {{ t("filters.table.perPage.20") }}
-              </SelectItem>
-              <SelectItem :value="50">
-                {{ t("filters.table.perPage.50") }}
-              </SelectItem>
-              <SelectItem :value="100">
-                {{ t("filters.table.perPage.100") }}
-              </SelectItem>
-              <SelectItem :value="-1">
-                {{ t("filters.table.perPage.all") }}
-              </SelectItem>
-            </SelectContent>
-          </Select>
-          <CreateRoleDialog>
-            <Button :disabled="disabledByPermission('roles.manage')">
-              <Plus />
-              <span>{{ t("roles.new") }}</span>
-            </Button>
-          </CreateRoleDialog>
-        </div>
+        <CreateRoleDialog>
+          <Button :disabled="disabledByPermission('roles.manage')">
+            <Plus />
+            <span>{{ t("roles.new") }}</span>
+          </Button>
+        </CreateRoleDialog>
       </template>
     </header>
 
