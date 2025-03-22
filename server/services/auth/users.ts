@@ -125,3 +125,24 @@ export async function resetPassword(req: HttpRequest) {
     return errorService.throwError(req, { stack: JSON.stringify(e) });
   }
 }
+
+export async function searchUsersByPartialEmail(req: HttpRequest) {
+  const { email, company } = await getQuery(req) as { email: string; company: string };
+
+  if (!email) return errorService.throwError(req, {
+    code: HttpCode.BAD_REQUEST,
+    message: "Partial email is missing!",
+  });
+  if (!company) return errorService.throwError(req, {
+    code: HttpCode.BAD_REQUEST,
+    message: "Partial company uuid is missing!",
+  });
+
+  try {
+    return await usrRepo.searchByEmail(email as string, company as string);
+  }
+  catch (e) {
+    console.error(e);
+    return errorService.throwError(req, { stack: JSON.stringify(e) });
+  }
+}
