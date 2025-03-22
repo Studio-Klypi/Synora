@@ -35,7 +35,8 @@
     "planned": "WIP",
     "permissions": {
       "roles": "Rôles",
-      "companies": "Organisation"
+      "companies": "Organisation",
+      "members": "Membres"
     }
   },
   "filters": {
@@ -252,6 +253,47 @@
       }
     },
     "new": "Nouveau rôle"
+  },
+  "members": {
+    "tab": "Utilisateurs",
+    "table": {
+      "headers": {
+        "name": "Nom",
+        "email": "Adresse e-mail",
+        "role": "Rôle",
+        "created-at": "Créé le",
+        "updated-at": "Dernière mise à jour le"
+      },
+      "actions": {
+        "edit-role": "Changer le rôle",
+        "delete-role": "Retirer le rôle",
+        "delete": "Supprimer le membre"
+      }
+    },
+    "actions": {
+      "new": "Nouveau membre",
+      "selection": {
+        "trigger": "Actions",
+        "edit-roles": "Éditer le rôle",
+        "delete-many": "Supprimer les membres",
+      }
+    },
+    "dialogs": {
+      "create-member": {
+        "title": "Nouveau membre",
+        "fields": {
+          "email": "Adresse e-mail",
+          "role": "Rôle"
+        },
+        "errors": {
+          "no-users": "Aucun utilisateur trouvé."
+        },
+        "action": "Ajouter le membre"
+      },
+      "delete-member": {
+        "caption": "Cette action est définitive. Toutes les données liées à ce membre seront définitivement supprimée. Es-tu sûr de vouloir le supprimer ?"
+      }
+    }
   },
   "settings": {
     "tab": "Paramètres généraux",

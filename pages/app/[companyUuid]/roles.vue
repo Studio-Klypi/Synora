@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { getCoreRowModel, useVueTable } from "@tanstack/vue-table";
 import { columns } from "assets/tables/columnDefs/rolesColumns";
-import { Plus, Trash, LayoutGrid, Tags } from "lucide-vue-next";
+import { Plus, Trash } from "lucide-vue-next";
 import type { IBackCompany } from "~/types/companies/companies";
 import CreateRoleDialog from "~/components/library/roles/CreateRoleDialog.vue";
 import ConfirmationDialog from "~/components/library/dialogs/ConfirmationDialog.vue";
@@ -17,9 +17,6 @@ const loadingRoles = computed(() => store.loadingRoles);
 const deletingRole = computed(() => store.deletingRole);
 const company = computed(() => store.selectedCompany as IBackCompany);
 
-const route = useRoute();
-const perPage = ref<number>(Number(route.query.perPage ?? 20));
-const page = ref<number>(Number(route.query.page ?? 1));
 const deleteRolesConfirmation = ref<boolean>(false);
 
 useHead({
@@ -36,22 +33,6 @@ const table = useVueTable({
 });
 const rowsSelected = computed(() => table.getFilteredSelectedRowModel().rows.map(r => r.original));
 const hasSelected = computed(() => !!rowsSelected.value.length);
-
-watch(perPage, updateQueryParams);
-watch(page, updateQueryParams);
-
-await store.fetchRoles(perPage.value, page.value);
-
-function updateQueryParams() {
-  navigateTo({
-    query: {
-      perPage: perPage.value,
-      page: page.value,
-    },
-  });
-  // store.fetchRoles(perPage.value, page.value).then();
-  store.fetchRoles(-1, 1).then(); // TODO: introduce real pagination
-}
 
 async function deleteSelectedRoles() {
   await store.deleteRoles(rowsSelected.value.map(r => r.id));
@@ -90,33 +71,12 @@ async function deleteSelectedRoles() {
           type="search"
           placeholder="Search..."
         />
-        <div class="flex gap-4">
-          <Select v-model="perPage">
-            <SelectTrigger class="sm:w-min gap-2">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent align="end">
-              <SelectItem :value="20">
-                {{ t("filters.table.perPage.20") }}
-              </SelectItem>
-              <SelectItem :value="50">
-                {{ t("filters.table.perPage.50") }}
-              </SelectItem>
-              <SelectItem :value="100">
-                {{ t("filters.table.perPage.100") }}
-              </SelectItem>
-              <SelectItem :value="-1">
-                {{ t("filters.table.perPage.all") }}
-              </SelectItem>
-            </SelectContent>
-          </Select>
-          <CreateRoleDialog>
-            <Button :disabled="disabledByPermission('roles.manage')">
-              <Plus />
-              <span>{{ t("roles.new") }}</span>
-            </Button>
-          </CreateRoleDialog>
-        </div>
+        <CreateRoleDialog>
+          <Button :disabled="disabledByPermission('roles.manage')">
+            <Plus />
+            <span>{{ t("roles.new") }}</span>
+          </Button>
+        </CreateRoleDialog>
       </template>
     </header>
 

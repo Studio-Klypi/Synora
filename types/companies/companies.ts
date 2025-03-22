@@ -25,12 +25,18 @@ export type IUpdateCompanyPayload = INewCompanyPayload;
 export interface CompaniesState {
   companies: IBackCompany[];
   selectedCompany: IBackCompany | null;
+  // company
   loading: boolean;
   updatingCompany: boolean;
   deletingCompany: boolean;
+  // roles
   loadingRoles: boolean;
   creatingRole: boolean;
   deletingRole: boolean;
+  // members
+  creatingMember: boolean;
+  updatingMember: boolean;
+  deletingMember: boolean;
 }
 
 export class CompanyNotFoundError extends EntityNotFoundError {}

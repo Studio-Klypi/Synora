@@ -3,6 +3,7 @@ import { hash } from "argon2";
 import type { IBackUser, INewUserPayload, IUser } from "~/types/auth/users";
 import { UserNotFoundError, UserConflictError } from "~/types/auth/users";
 import prisma from "~/server/database";
+import type { IOpListResult } from "~/types/generics/database";
 
 export function purify(user: IBackUser): IUser {
   const partial = { ...user } as Partial<IBackUser>;
@@ -56,4 +57,28 @@ export async function getByEmail(email: string): Promise<IBackUser> {
   });
   if (!user) throw new UserNotFoundError();
   return user;
+}
+
+export async function searchByEmail(partialEmail: string, companyUuid?: string): Promise<IOpListResult<IBackUser>> {
+  const list = await prisma.user.findMany({
+    where: {
+      email: {
+        contains: partialEmail,
+        mode: "insensitive",
+      },
+      companyMembers: {
+        none: {
+          companyUuid,
+        },
+      },
+    },
+  });
+  return {
+    data: list,
+    meta: {
+      total: list.length,
+      count: list.length,
+      totalPages: 1,
+    },
+  };
 }

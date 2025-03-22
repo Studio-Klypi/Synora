@@ -41,7 +41,7 @@ export async function createCompany(req: HttpRequest) {
     }).catch(console.error);
 
     req.node.res.statusCode = HttpCode.CREATED;
-    return cpyRepo.purify(company);
+    return company;
   }
   catch (e) {
     console.error(e);
@@ -55,7 +55,7 @@ export async function editCompany(req: HttpRequest) {
   try {
     const updated = await cpyRepo.update(company.uuid, payload);
     req.node.res.statusCode = HttpCode.ACCEPTED;
-    return cpyRepo.purify(updated);
+    return updated;
   }
   catch (e) {
     return errorService.throwError(req, { stack: JSON.stringify(e) });

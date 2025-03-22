@@ -6,17 +6,24 @@ import type {
 } from "~/types/companies/companies";
 import type { IOpListResult } from "~/types/generics/database";
 import type { IBackRole, INewRolePayload, IUpdateRolePayload } from "~/types/companies/roles";
+import type { IBackCompanyMember, INewCompanyMemberPayload } from "~/types/companies/members";
 
 export const useCompaniesStore = defineStore("companies", {
   state: (): CompaniesState => ({
     companies: [],
     selectedCompany: null,
+    // company
     loading: false,
     updatingCompany: false,
     deletingCompany: false,
+    // roles
     loadingRoles: false,
     creatingRole: false,
     deletingRole: false,
+    // members
+    creatingMember: false,
+    updatingMember: false,
+    deletingMember: false,
   }),
   actions: {
     async fetchUserCompanies() {
@@ -116,24 +123,6 @@ export const useCompaniesStore = defineStore("companies", {
       }
     },
     // roles
-    async fetchRoles(perPage: number = 20, page: number = 1) {
-      if (!this.selectedCompany) return;
-
-      this.loadingRoles = true;
-
-      try {
-        const { data: res } = await useFetch<IOpListResult<IBackRole>>(`/api/companies/${this.selectedCompany.uuid}/roles?perPage=${perPage}&page=${page}`);
-        if (!res.value) return;
-        this.selectedCompany.roles = res.value.data;
-      }
-      catch (e) {
-        // TODO: toast
-        console.error(e);
-      }
-      finally {
-        this.loadingRoles = false;
-      }
-    },
     async createRole(payload: Omit<INewRolePayload, "companyUuid">) {
       if (!this.selectedCompany) return;
 
@@ -227,9 +216,94 @@ export const useCompaniesStore = defineStore("companies", {
         this.deletingRole = false;
       }
     },
+    updateRolesMembers() {
+      if (!this.selectedCompany) return;
+
+      this.selectedCompany.roles = this.selectedCompany.roles?.map(role => ({
+        ...role,
+        members: this.selectedCompany?.members?.filter(mbr => mbr.roleId === role.id) ?? [],
+      })) ?? [];
+    },
+    // members
+    async createMember(payload: Omit<INewCompanyMemberPayload, "companyUuid">) {
+      if (!this.selectedCompany) return;
+
+      this.creatingMember = true;
+
+      try {
+        const member = await $fetch<IBackCompanyMember>(`/api/companies/${this.selectedCompany.uuid}/members`, {
+          method: "POST",
+          body: payload,
+        });
+        // TODO: toast
+        this.selectedCompany.members = [
+          ...(this.selectedCompany.members ?? []),
+          member,
+        ];
+        this.updateRolesMembers();
+      }
+      catch (e) {
+        // TODO: toast
+        console.error(e);
+      }
+      finally {
+        this.creatingMember = false;
+      }
+    },
+    async editMemberRole(member: IBackCompanyMember, roleId: number | null) {
+      if (!this.selectedCompany) return;
+
+      this.updatingMember = true;
+
+      try {
+        const newMember = await $fetch<IBackCompanyMember>(`/api/companies/${this.selectedCompany.uuid}/members/${member.userUuid}/role`, {
+          method: "PATCH",
+          body: {
+            roleId,
+          },
+        });
+        this.selectedCompany.members = this.selectedCompany.members?.map(mbr => mbr.userUuid === newMember.userUuid ? newMember : mbr) ?? [];
+        this.updateRolesMembers();
+
+        const userStore = useUserStore();
+        if (userStore.getUser?.uuid === newMember.userUuid) await userStore.recoverMyPermissions(this.selectedCompany.uuid);
+      }
+      catch (e) {
+        // TODO: toast
+        console.error(e);
+      }
+      finally {
+        this.updatingMember = false;
+      }
+    },
+    // TODO: async editMembersRole(uuids: string[], roleId: number) {},
+    async deleteMember(member: IBackCompanyMember) {
+      if (!this.selectedCompany) return;
+
+      this.deletingMember = true;
+
+      try {
+        await $fetch(`/api/companies/${this.selectedCompany.uuid}/members/${member.userUuid}`, {
+          method: "DELETE",
+        });
+
+        this.selectedCompany.members = this.selectedCompany.members?.filter(mbr => mbr.userUuid !== member.userUuid) ?? [];
+        this.updateRolesMembers();
+        // TODO: toast
+      }
+      catch (e) {
+        // TODO: toast
+        console.error(e);
+      }
+      finally {
+        this.deletingMember = false;
+      }
+    },
+    // TODO: async deleteMembers(uuids: string[]) {},
   },
   getters: {
     getCompanies: state => state.companies,
     getReducedCompanies: state => state.companies.filter(c => c.uuid !== state.selectedCompany?.uuid),
+    getRoles: state => state.selectedCompany?.roles ?? [],
   },
 });
