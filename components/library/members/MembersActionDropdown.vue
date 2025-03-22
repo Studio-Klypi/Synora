@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { MoreHorizontal, Tag, Trash } from "lucide-vue-next";
+import { X, MoreHorizontal, Tag, Trash } from "lucide-vue-next";
 import type { HTMLAttributes } from "vue";
 import type { IBackCompanyMember } from "~/types/companies/members";
+import ConfirmationDialog from "~/components/library/dialogs/ConfirmationDialog.vue";
 
 const props = defineProps<{
   member: IBackCompanyMember;
@@ -10,12 +11,18 @@ const props = defineProps<{
 
 const store = useCompaniesStore();
 const roles = computed(() => store.getRoles);
+const deletingMember = computed(() => store.deletingMember);
 
-async function updateRole(val: string) {
-  const roleId = Number(val);
+const deleteConfirm = ref<boolean>(false);
+
+async function updateRole(val?: string) {
+  const roleId = val ? Number(val) : null;
   if (roleId === props.member.role?.id) return;
 
   await store.editMemberRole(props.member, roleId);
+}
+async function deleteMember() {
+  await store.deleteMember(props.member);
 }
 </script>
 
@@ -31,6 +38,14 @@ async function updateRole(val: string) {
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end">
+      <DropdownMenuItem
+        v-if="member.roleId && member.role"
+        :disabled="disabledByPermission('members.edit-role')"
+        @click="updateRole"
+      >
+        <X />
+        {{ $t("members.table.actions.delete-role") }}
+      </DropdownMenuItem>
       <DropdownMenuSub>
         <DropdownMenuSubTrigger :disabled="disabledByPermission('members.edit-role')">
           <Tag />
@@ -53,10 +68,22 @@ async function updateRole(val: string) {
           </DropdownMenuSubContent>
         </DropdownMenuPortal>
       </DropdownMenuSub>
-      <DropdownMenuItem :disabled="disabledByPermission('members.delete')">
+      <DropdownMenuItem
+        :disabled="disabledByPermission('members.delete')"
+        @click="deleteConfirm = true"
+      >
         <Trash />
         {{ $t("members.table.actions.delete") }}
       </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
+
+  <ConfirmationDialog
+    caption="members.dialogs.delete-member.caption"
+    :open="deleteConfirm"
+    :action="deleteMember"
+    :loading="deletingMember"
+    @update:open="deleteConfirm = $event"
+    @confirmed="deleteConfirm = false"
+  />
 </template>

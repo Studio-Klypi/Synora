@@ -49,6 +49,18 @@ export async function update(userUuid: string, companyUuid: string, payload: IUp
   if (!member) throw new CompanyMemberNotFoundError();
   return member;
 }
+export async function destroy(userUuid: string, companyUuid: string): Promise<void> {
+  const member = await prisma.companyMember.delete({
+    where: {
+      userUuid_companyUuid: {
+        userUuid,
+        companyUuid,
+      },
+    },
+  });
+  if (!member) throw new CompanyMemberNotFoundError();
+  return;
+}
 
 export async function getUserRole(userUuid: string, companyUuid: string): Promise<IBackRole | null> {
   const role = await prisma.companyMember.findUnique({

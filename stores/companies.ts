@@ -216,6 +216,14 @@ export const useCompaniesStore = defineStore("companies", {
         this.deletingRole = false;
       }
     },
+    updateRolesMembers() {
+      if (!this.selectedCompany) return;
+
+      this.selectedCompany.roles = this.selectedCompany.roles?.map(role => ({
+        ...role,
+        members: this.selectedCompany?.members?.filter(mbr => mbr.roleId === role.id) ?? [],
+      })) ?? [];
+    },
     // members
     async createMember(payload: Omit<INewCompanyMemberPayload, "companyUuid">) {
       if (!this.selectedCompany) return;
@@ -232,6 +240,7 @@ export const useCompaniesStore = defineStore("companies", {
           ...(this.selectedCompany.members ?? []),
           member,
         ];
+        this.updateRolesMembers();
       }
       catch (e) {
         // TODO: toast
@@ -241,7 +250,7 @@ export const useCompaniesStore = defineStore("companies", {
         this.creatingMember = false;
       }
     },
-    async editMemberRole(member: IBackCompanyMember, roleId: number) {
+    async editMemberRole(member: IBackCompanyMember, roleId: number | null) {
       if (!this.selectedCompany) return;
 
       this.updatingMember = true;
@@ -254,10 +263,7 @@ export const useCompaniesStore = defineStore("companies", {
           },
         });
         this.selectedCompany.members = this.selectedCompany.members?.map(mbr => mbr.userUuid === newMember.userUuid ? newMember : mbr) ?? [];
-        this.selectedCompany.roles = this.selectedCompany.roles?.map(role => ({
-          ...role,
-          members: this.selectedCompany?.members?.filter(mbr => mbr.roleId === role.id) ?? [],
-        })) ?? [];
+        this.updateRolesMembers();
 
         const userStore = useUserStore();
         if (userStore.getUser?.uuid === newMember.userUuid) await userStore.recoverMyPermissions(this.selectedCompany.uuid);
@@ -271,7 +277,28 @@ export const useCompaniesStore = defineStore("companies", {
       }
     },
     // TODO: async editMembersRole(uuids: string[], roleId: number) {},
-    // TODO: async deleteMember(member: IBackCompanyMember) {},
+    async deleteMember(member: IBackCompanyMember) {
+      if (!this.selectedCompany) return;
+
+      this.deletingMember = true;
+
+      try {
+        await $fetch(`/api/companies/${this.selectedCompany.uuid}/members/${member.userUuid}`, {
+          method: "DELETE",
+        });
+
+        this.selectedCompany.members = this.selectedCompany.members?.filter(mbr => mbr.userUuid !== member.userUuid) ?? [];
+        this.updateRolesMembers();
+        // TODO: toast
+      }
+      catch (e) {
+        // TODO: toast
+        console.error(e);
+      }
+      finally {
+        this.deletingMember = false;
+      }
+    },
     // TODO: async deleteMembers(uuids: string[]) {},
   },
   getters: {

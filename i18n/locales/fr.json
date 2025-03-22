@@ -266,6 +266,7 @@
       },
       "actions": {
         "edit-role": "Changer le rôle",
+        "delete-role": "Retirer le rôle",
         "delete": "Supprimer le membre"
       }
     },
@@ -274,7 +275,7 @@
       "selection": {
         "trigger": "Actions",
         "edit-roles": "Éditer le rôle",
-        "delete-many": "Supprimer les membres"
+        "delete-many": "Supprimer les membres",
       }
     },
     "dialogs": {
@@ -288,6 +289,9 @@
           "no-users": "Aucun utilisateur trouvé."
         },
         "action": "Ajouter le membre"
+      },
+      "delete-member": {
+        "caption": "Cette action est définitive. Toutes les données liées à ce membre seront définitivement supprimée. Es-tu sûr de vouloir le supprimer ?"
       }
     }
   },
