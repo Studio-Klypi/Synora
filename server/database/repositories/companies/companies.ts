@@ -24,6 +24,12 @@ export async function create(payload: INewCompanyPayload): Promise<IBackCompany>
       },
     },
     include: {
+      members: {
+        include: {
+          user: true,
+          role: true,
+        },
+      },
       roles: {
         include: {
           members: true,
@@ -41,6 +47,12 @@ export async function update(uuid: string, payload: IUpdateCompanyPayload): Prom
       ...payload,
     },
     include: {
+      members: {
+        include: {
+          user: true,
+          role: true,
+        },
+      },
       roles: {
         include: {
           members: true,
@@ -95,6 +107,7 @@ export async function get(userUuid: string, uuid: string): Promise<IBackCompany>
       members: {
         include: {
           user: true,
+          role: true,
         },
       },
       roles: {

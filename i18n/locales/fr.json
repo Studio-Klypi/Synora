@@ -253,6 +253,40 @@
     },
     "new": "Nouveau rôle"
   },
+  "members": {
+    "tab": "Utilisateurs",
+    "table": {
+      "headers": {
+        "name": "Nom",
+        "email": "Adresse e-mail",
+        "role": "Rôle",
+        "created-at": "Créé le",
+        "updated-at": "Dernière mise à jour le"
+      },
+      "actions": {
+        "edit-role": "Changer le rôle",
+        "delete": "Supprimer le membre"
+      }
+    },
+    "actions": {
+      "new": "Nouveau membre",
+      "selection": {
+        "trigger": "Actions",
+        "edit-roles": "Éditer le rôle",
+        "delete-many": "Supprimer les membres"
+      }
+    },
+    "dialogs": {
+      "create-member": {
+        "title": "Nouveau membre",
+        "fields": {
+          "email": "Adresse e-mail",
+          "role": "Rôle"
+        },
+        "action": "Ajouter le membre"
+      }
+    }
+  },
   "settings": {
     "tab": "Paramètres généraux",
     "title": "Paramètres généraux",

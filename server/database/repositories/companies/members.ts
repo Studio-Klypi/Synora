@@ -11,6 +11,10 @@ export async function create(payload: INewCompanyMemberPayload): Promise<IBackCo
       data: {
         ...payload,
       },
+      include: {
+        user: true,
+        role: true,
+      },
     });
   }
   catch (e) {

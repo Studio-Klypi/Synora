@@ -6,17 +6,24 @@ import type {
 } from "~/types/companies/companies";
 import type { IOpListResult } from "~/types/generics/database";
 import type { IBackRole, INewRolePayload, IUpdateRolePayload } from "~/types/companies/roles";
+import type { IBackCompanyMember, INewCompanyMemberPayload } from "~/types/companies/members";
 
 export const useCompaniesStore = defineStore("companies", {
   state: (): CompaniesState => ({
     companies: [],
     selectedCompany: null,
+    // company
     loading: false,
     updatingCompany: false,
     deletingCompany: false,
+    // roles
     loadingRoles: false,
     creatingRole: false,
     deletingRole: false,
+    // members
+    creatingMember: false,
+    updatingMember: false,
+    deletingMember: false,
   }),
   actions: {
     async fetchUserCompanies() {
@@ -209,9 +216,39 @@ export const useCompaniesStore = defineStore("companies", {
         this.deletingRole = false;
       }
     },
+    // members
+    async createMember(payload: Omit<INewCompanyMemberPayload, "companyUuid">) {
+      if (!this.selectedCompany) return;
+
+      this.creatingMember = true;
+
+      try {
+        const member = await $fetch<IBackCompanyMember>(`/api/companies/${this.selectedCompany.uuid}/members`, {
+          method: "POST",
+          body: payload,
+        });
+        // TODO: toast
+        this.selectedCompany.members = [
+          ...(this.selectedCompany.members ?? []),
+          member,
+        ];
+      }
+      catch (e) {
+        // TODO: toast
+        console.error(e);
+      }
+      finally {
+        this.creatingMember = false;
+      }
+    },
+    // TODO: async editMemberRole(member: IBackCompanyMember, roleId: number) {},
+    // TODO: async editMembersRole(uuids: string[], roleId: number) {},
+    // TODO: async deleteMember(member: IBackCompanyMember) {},
+    // TODO: async deleteMembers(uuids: string[]) {},
   },
   getters: {
     getCompanies: state => state.companies,
     getReducedCompanies: state => state.companies.filter(c => c.uuid !== state.selectedCompany?.uuid),
+    getRoles: state => state.selectedCompany?.roles ?? [],
   },
 });
