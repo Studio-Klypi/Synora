@@ -283,6 +283,9 @@
           "email": "Adresse e-mail",
           "role": "Rôle"
         },
+        "errors": {
+          "no-users": "Aucun utilisateur trouvé."
+        },
         "action": "Ajouter le membre"
       }
     }
