@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Save, LoaderCircle, CalendarIcon } from "lucide-vue-next";
+import { Save, LoaderCircle } from "lucide-vue-next";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 import { useForm } from "vee-validate";
