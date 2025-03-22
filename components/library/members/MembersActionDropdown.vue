@@ -12,7 +12,10 @@ const store = useCompaniesStore();
 const roles = computed(() => store.getRoles);
 
 async function updateRole(val: string) {
-  console.log(val);
+  const roleId = Number(val);
+  if (roleId === props.member.role?.id) return;
+
+  await store.editMemberRole(props.member, roleId);
 }
 </script>
 
@@ -29,7 +32,7 @@ async function updateRole(val: string) {
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end">
       <DropdownMenuSub>
-        <DropdownMenuSubTrigger>
+        <DropdownMenuSubTrigger :disabled="disabledByPermission('members.edit-role')">
           <Tag />
           {{ $t("members.table.actions.edit-role") }}
         </DropdownMenuSubTrigger>
@@ -50,7 +53,7 @@ async function updateRole(val: string) {
           </DropdownMenuSubContent>
         </DropdownMenuPortal>
       </DropdownMenuSub>
-      <DropdownMenuItem>
+      <DropdownMenuItem :disabled="disabledByPermission('members.delete')">
         <Trash />
         {{ $t("members.table.actions.delete") }}
       </DropdownMenuItem>

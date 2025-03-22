@@ -46,3 +46,27 @@ export async function createMember(req: HttpRequest) {
     return errorService.throwError(req, { stack: JSON.stringify(e) });
   }
 }
+
+export async function updateMemberRole(req: HttpRequest) {
+  const { uuid } = req.context.company;
+  const userUuid = getRouterParam(req, "memberUuid");
+  const { roleId } = await readBody<{
+    roleId: number;
+  }>(req);
+
+  if (!userUuid) return errorService.throwError(req, {
+    code: HttpCode.BAD_REQUEST,
+    message: "User uuid parameter is missing!",
+  });
+
+  try {
+    const member = await mbrRepo.update(userUuid, uuid, {
+      roleId,
+    });
+    req.node.res.statusCode = HttpCode.ACCEPTED;
+    return member;
+  }
+  catch (e) {
+    return errorService.throwError(req, { stack: JSON.stringify(e) });
+  }
+}

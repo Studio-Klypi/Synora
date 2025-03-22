@@ -1,6 +1,10 @@
 import type { Prisma } from "@prisma/client";
-import type { IBackCompanyMember, INewCompanyMemberPayload } from "~/types/companies/members";
-import { CompanyMemberConflictError } from "~/types/companies/members";
+import type {
+  IBackCompanyMember,
+  INewCompanyMemberPayload,
+  IUpdateCompanyMemberPayload,
+} from "~/types/companies/members";
+import { CompanyMemberConflictError, CompanyMemberNotFoundError } from "~/types/companies/members";
 import prisma from "~/server/database";
 import type { IBackRole } from "~/types/companies/roles";
 import { RoleNotFoundError } from "~/types/companies/roles";
@@ -25,6 +29,25 @@ export async function create(payload: INewCompanyMemberPayload): Promise<IBackCo
         throw e;
     }
   }
+}
+export async function update(userUuid: string, companyUuid: string, payload: IUpdateCompanyMemberPayload): Promise<IBackCompanyMember> {
+  const member = await prisma.companyMember.update({
+    where: {
+      userUuid_companyUuid: {
+        userUuid,
+        companyUuid,
+      },
+    },
+    data: {
+      ...payload,
+    },
+    include: {
+      role: true,
+      user: true,
+    },
+  });
+  if (!member) throw new CompanyMemberNotFoundError();
+  return member;
 }
 
 export async function getUserRole(userUuid: string, companyUuid: string): Promise<IBackRole | null> {

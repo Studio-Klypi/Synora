@@ -70,7 +70,7 @@ const hasSelected = computed(() => !!rowsSelected.value.length);
           placeholder="Search..."
         />
         <CreateMemberDialog>
-          <Button>
+          <Button :disabled="disabledByPermission('members.add')">
             <UserPlus />
             {{ t("members.actions.new") }}
           </Button>

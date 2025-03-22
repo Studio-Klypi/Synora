@@ -35,7 +35,8 @@
     "planned": "WIP",
     "permissions": {
       "roles": "Rôles",
-      "companies": "Organisation"
+      "companies": "Organisation",
+      "members": "Membres"
     }
   },
   "filters": {

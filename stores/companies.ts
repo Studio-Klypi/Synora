@@ -241,7 +241,35 @@ export const useCompaniesStore = defineStore("companies", {
         this.creatingMember = false;
       }
     },
-    // TODO: async editMemberRole(member: IBackCompanyMember, roleId: number) {},
+    async editMemberRole(member: IBackCompanyMember, roleId: number) {
+      if (!this.selectedCompany) return;
+
+      this.updatingMember = true;
+
+      try {
+        const newMember = await $fetch<IBackCompanyMember>(`/api/companies/${this.selectedCompany.uuid}/members/${member.userUuid}/role`, {
+          method: "PATCH",
+          body: {
+            roleId,
+          },
+        });
+        this.selectedCompany.members = this.selectedCompany.members?.map(mbr => mbr.userUuid === newMember.userUuid ? newMember : mbr) ?? [];
+        this.selectedCompany.roles = this.selectedCompany.roles?.map(role => ({
+          ...role,
+          members: this.selectedCompany?.members?.filter(mbr => mbr.roleId === role.id) ?? [],
+        })) ?? [];
+
+        const userStore = useUserStore();
+        if (userStore.getUser?.uuid === newMember.userUuid) await userStore.recoverMyPermissions(this.selectedCompany.uuid);
+      }
+      catch (e) {
+        // TODO: toast
+        console.error(e);
+      }
+      finally {
+        this.updatingMember = false;
+      }
+    },
     // TODO: async editMembersRole(uuids: string[], roleId: number) {},
     // TODO: async deleteMember(member: IBackCompanyMember) {},
     // TODO: async deleteMembers(uuids: string[]) {},
