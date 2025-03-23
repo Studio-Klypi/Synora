@@ -102,6 +102,21 @@
 
   "navigation": {
     "overview": "Vue d'ensemble",
+    "accounting": {
+      "DEFAULT": "Comptabilité",
+      "plan": {
+        "DEFAULT": "Plan comptable",
+        "accounts": "Comptes",
+        "journals": "Journaux"
+      },
+      "transactions": "Transactions",
+      "exercise": "Exercice comptable",
+      "documents": {
+        "DEFAULT": "Documents",
+        "results": "Compte de résultats",
+        "review": "Bilan financier"
+      }
+    },
     "administration": {
       "DEFAULT": "Administration",
       "roles": "Rôles",
@@ -114,6 +129,15 @@
     "resources": {
       "DEFAULT": "Ressources",
       "wiki": "Documentation"
+    },
+    "archives": {
+      "DEFAULT": "Archives",
+      "accounting": {
+        "DEFAULT": "Comptabilité",
+        "accounts": "Comptes",
+        "exercises": "Exercices comptables",
+        "documents": "Documents"
+      }
     }
   },
   "nav-actions": {

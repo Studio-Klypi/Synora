@@ -13,6 +13,23 @@ enum UserRequestType {
   password
 }
 
+// > Accounting
+enum AccountType {
+  active
+  passive
+  charges
+  products
+  others
+}
+
+enum JournalType {
+  sells
+  purchases
+  bank
+  cash
+  others
+}
+
 // MODELS
 // > Authentication
 model User {
@@ -78,8 +95,11 @@ model Company {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  roles   Role[]
-  members CompanyMember[]
+  roles             Role[]
+  members           CompanyMember[]
+  accounts          Account[]
+  journals          Journal[]
+  accountingEntires AccountingEntry[]
 
   @@map("companies")
 }
@@ -112,4 +132,59 @@ model CompanyMember {
 
   @@id([userUuid, companyUuid])
   @@map("company_members")
+}
+
+// > Accounting
+model Account {
+  id          Int         @unique @default(autoincrement())
+  number      Int
+  companyUuid String
+  name        String
+  type        AccountType
+  createdAt   DateTime    @default(now())
+  archivedAt  DateTime?
+
+  company Company @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
+
+  creditEntries AccountingEntry[] @relation("CreditAccount")
+  debitEntries  AccountingEntry[] @relation("DebitAccount")
+
+  @@id([number, companyUuid])
+  @@map("accounts")
+}
+
+model Journal {
+  uuid        String      @unique @default(uuid())
+  companyUuid String
+  name        String
+  type        JournalType
+  createdAt   DateTime    @default(now())
+
+  company Company @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
+
+  accountingEntries AccountingEntry[]
+
+  @@id([uuid, companyUuid])
+  @@map("journals")
+}
+
+model AccountingEntry {
+  uuid            String   @default(uuid())
+  companyUuid     String
+  journalUuid     String
+  date            DateTime
+  reference       String
+  creditAccountId Int
+  debitAccountId  Int
+  amount          Decimal  @db.Money
+  label           String
+  createdAt       DateTime @default(now())
+
+  company       Company @relation(fields: [companyUuid], references: [uuid], onDelete: Cascade)
+  journal       Journal @relation(fields: [journalUuid], references: [uuid], onDelete: Cascade)
+  creditAccount Account @relation("CreditAccount", fields: [creditAccountId], references: [id], onDelete: Cascade)
+  debitAccount  Account @relation("DebitAccount", fields: [debitAccountId], references: [id], onDelete: Cascade)
+
+  @@id([uuid, companyUuid])
+  @@map("accounting_entries")
 }

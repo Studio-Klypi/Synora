@@ -1,4 +1,5 @@
 import { EntityNotFoundError } from "~/types/generics/errors";
+import type { NullableType } from "~/types/generics/types";
 
 export type IUserRequestType = "password";
 
@@ -8,7 +9,7 @@ export interface IBackUserRequest {
   type: IUserRequestType;
   requestedAt: Date;
   expiresAt: Date;
-  usedAt?: Date | null;
+  usedAt?: NullableType<Date>;
 }
 export type INewUserRequestPayload = Omit<IBackUserRequest, "code" | "requestedAt" | "usedAt">;
 

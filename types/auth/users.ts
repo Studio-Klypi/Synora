@@ -1,15 +1,16 @@
 import { DatabaseConflictError, EntityNotFoundError } from "~/types/generics/errors";
 import type { EPermissions } from "~/types/security/permissions";
+import type { NullableType } from "~/types/generics/types";
 
 export interface UserState {
-  me: IUser | null;
+  me: NullableType<IUser>;
   permissions: EPermissions;
   loading: boolean;
 }
 
 export interface IBackUser {
   uuid: string;
-  phone?: string | null;
+  phone?: NullableType<string>;
   email: string;
   password: string;
   firstName: string;
@@ -17,7 +18,7 @@ export interface IBackUser {
   address: string;
   createdAt: Date;
   updatedAt: Date;
-  deletedAt?: Date | null;
+  deletedAt?: NullableType<Date>;
 }
 export type IUser = Omit<IBackUser, "password">;
 
