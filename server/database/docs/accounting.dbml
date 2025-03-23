@@ -1,0 +1,57 @@
+TableGroup Accounting [color: #E4A62E] {
+  Account
+  AccountingEntry
+  Journal
+}
+
+Enum AccountType {
+  active
+  passive
+  charges
+  products
+  others
+}
+Table Account {
+  id int
+  number int pk
+  companyUuid uuid pk [ref: > Company.uuid]
+
+  name string
+  type AccountType
+
+  createdAt datetime
+  archivedAt datetime [null]
+}
+
+Enum JournalType {
+  bank
+  cash
+  sells
+  purchases
+  others
+}
+Table Journal {
+  uuid uuid pk
+  companyUuid uuid pk [ref: > Company.uuid]
+
+  name string
+  type JournalType
+
+  createdAt datetime
+}
+
+Table AccountingEntry {
+  uuid uuid pk
+  companyUuid uuid pk [ref: > Company.uuid]
+  journalUuid uuid [ref: > Journal.uuid]
+
+  date datetime
+  reference string
+
+  credit number [ref: > Account.id]
+  debit number [ref: > Account.id]
+  amount double
+  label string
+
+  createdAt datetime
+}

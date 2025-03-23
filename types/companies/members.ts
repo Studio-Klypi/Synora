@@ -2,17 +2,18 @@ import type { IUser } from "~/types/auth/users";
 import type { IBackCompany } from "~/types/companies/companies";
 import type { IBackRole } from "~/types/companies/roles";
 import { DatabaseConflictError, EntityNotFoundError } from "~/types/generics/errors";
+import type { NullableType } from "~/types/generics/types";
 
 export interface IBackCompanyMember {
   userUuid: string;
   companyUuid: string;
-  roleId?: number | null;
+  roleId?: NullableType<number>;
   createdAt: Date;
   updatedAt: Date;
 
   user?: IUser;
   company?: IBackCompany;
-  role?: IBackRole | null;
+  role?: NullableType<IBackRole>;
 }
 
 export type INewCompanyMemberPayload = Omit<IBackCompanyMember, "createdAt" | "updatedAt" | "user" | "company" | "role">;
