@@ -27,7 +27,7 @@ export const navSections: INavSection[] = [
         label: "users",
         icon: Users,
         url: "/members",
-        planned: true,
+        new: true,
       },
       {
         type: "group",
