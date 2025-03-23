@@ -20,7 +20,6 @@ export const navSections: INavSection[] = [
         label: "roles",
         icon: Tags,
         url: "/roles",
-        new: true,
       },
       {
         type: "item",
