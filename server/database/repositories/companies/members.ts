@@ -62,7 +62,23 @@ export async function destroy(userUuid: string, companyUuid: string): Promise<vo
   return;
 }
 
-// TODO: export async function updateMany(uuids: string[], companyUuid: string, payload: IUpdateCompanyMemberPayload): Promise<IBackCompanyMember[]> {}
+export async function updateMany(uuids: string[], companyUuid: string, payload: IUpdateCompanyMemberPayload): Promise<IBackCompanyMember[]> {
+  return prisma.companyMember.updateManyAndReturn({
+    where: {
+      userUuid: {
+        in: uuids,
+      },
+      companyUuid,
+    },
+    data: {
+      ...payload,
+    },
+    include: {
+      user: true,
+      role: true,
+    },
+  });
+}
 export async function deleteMany(uuids: string[], companyUuid: string): Promise<void> {
   await prisma.companyMember.deleteMany({
     where: {

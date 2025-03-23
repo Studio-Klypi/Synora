@@ -276,7 +276,31 @@ export const useCompaniesStore = defineStore("companies", {
         this.updatingMember = false;
       }
     },
-    // TODO: async editMembersRole(uuids: string[], roleId: number) {},
+    async editMembersRole(uuids: string[], roleId: number | null) {
+      if (!this.selectedCompany) return;
+
+      this.updatingMember = true;
+
+      try {
+        const members = await $fetch<IBackCompanyMember[]>(`/api/companies/${this.selectedCompany.uuid}/members/role`, {
+          method: "PATCH",
+          body: {
+            members: uuids,
+            roleId,
+          },
+        });
+
+        this.selectedCompany.members = this.selectedCompany.members?.map(mbr => members.find(m => m.userUuid === mbr.userUuid) ?? mbr) ?? [];
+        this.updateRolesMembers();
+      }
+      catch (e) {
+        // TODO: toast
+        console.error(e);
+      }
+      finally {
+        this.updatingMember = true;
+      }
+    },
     async deleteMember(member: IBackCompanyMember) {
       if (!this.selectedCompany) return;
 

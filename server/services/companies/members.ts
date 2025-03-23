@@ -75,6 +75,22 @@ export async function updateMemberRole(req: HttpRequest) {
     return errorService.throwError(req, { stack: JSON.stringify(e) });
   }
 }
+export async function updateManyMembersRole(req: HttpRequest) {
+  const { uuid } = req.context.company;
+  const { members: uuids, roleId } = await readBody<{
+    members: string[];
+    roleId: number | null;
+  }>(req);
+
+  try {
+    const members = await mbrRepo.updateMany(uuids, uuid, { roleId });
+    req.node.res.statusCode = HttpCode.ACCEPTED;
+    return members;
+  }
+  catch (e) {
+    return errorService.throwError(req, { stack: JSON.stringify(e) });
+  }
+}
 
 export async function deleteMember(req: HttpRequest) {
   const { uuid } = req.context.company;

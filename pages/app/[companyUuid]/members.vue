@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { UserPlus, LayoutGrid, Tag, Trash } from "lucide-vue-next";
+import { X, UserPlus, LayoutGrid, Tag, Trash } from "lucide-vue-next";
 import { getCoreRowModel, useVueTable } from "@tanstack/vue-table";
 import { columns } from "assets/tables/columnDefs/membersColumns";
 import type { IBackCompany } from "~/types/companies/companies";
@@ -38,9 +38,10 @@ const hasSelected = computed(() => !!rowsSelected.value.length);
 
 const deleteConfirm = ref<boolean>(false);
 
-/* TODO: async function editSelectionRole(roleId: number | null) {
+async function editSelectionRole(roleId: number | null) {
   const uuids = rowsSelected.value.map(r => r.userUuid);
-} */
+  await store.editMembersRole(uuids, roleId);
+}
 async function deleteSelection() {
   const uuids = rowsSelected.value.map(r => r.userUuid);
   await store.deleteMembers(uuids);
@@ -66,7 +67,10 @@ async function deleteSelection() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem :disabled="disabledByPermission('members.edit-role')">
+              <DropdownMenuItem
+                :disabled="disabledByPermission('members.edit-role')"
+                @click="editSelectionRole(null)"
+              >
                 <X />
                 {{ t("members.actions.selection.delete-roles") }}
               </DropdownMenuItem>
@@ -80,6 +84,7 @@ async function deleteSelection() {
                     <DropdownMenuItem
                       v-for="role in roles"
                       :key="`role-${role.id}`"
+                      @click="editSelectionRole(role.id)"
                     >
                       {{ role.name }}
                     </DropdownMenuItem>
