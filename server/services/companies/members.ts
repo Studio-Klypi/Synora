@@ -96,3 +96,18 @@ export async function deleteMember(req: HttpRequest) {
     return errorService.throwError(req, { stack: JSON.stringify(e) });
   }
 }
+export async function deleteMembers(req: HttpRequest) {
+  const { uuid } = req.context.company;
+  const { members } = await readBody<{
+    members: string[];
+  }>(req);
+
+  try {
+    await mbrRepo.deleteMany(members, uuid);
+    req.node.res.statusCode = HttpCode.ACCEPTED;
+    return;
+  }
+  catch (e) {
+    return errorService.throwError(req, { stack: JSON.stringify(e) });
+  }
+}

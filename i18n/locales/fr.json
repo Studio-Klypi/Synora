@@ -274,8 +274,9 @@
       "new": "Nouveau membre",
       "selection": {
         "trigger": "Actions",
-        "edit-roles": "Éditer le rôle",
-        "delete-many": "Supprimer les membres",
+        "edit-roles": "Définir le rôle",
+        "delete-roles": "Supprimer le rôle",
+        "delete-many": "Supprimer les membres"
       }
     },
     "dialogs": {
@@ -292,6 +293,9 @@
       },
       "delete-member": {
         "caption": "Cette action est définitive. Toutes les données liées à ce membre seront définitivement supprimée. Es-tu sûr de vouloir le supprimer ?"
+      },
+      "delete-many-members": {
+        "caption": "Cette action est définitive ! Toutes les données liées à ces membres seront supprimés. Es-tu sûr de vouloir continuer ?"
       }
     }
   },

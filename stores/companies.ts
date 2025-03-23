@@ -299,7 +299,30 @@ export const useCompaniesStore = defineStore("companies", {
         this.deletingMember = false;
       }
     },
-    // TODO: async deleteMembers(uuids: string[]) {},
+    async deleteMembers(uuids: string[]) {
+      if (!this.selectedCompany) return;
+
+      this.deletingMember = true;
+
+      try {
+        await $fetch(`/api/companies/${this.selectedCompany.uuid}/members`, {
+          method: "DELETE",
+          body: {
+            members: uuids,
+          },
+        });
+
+        this.selectedCompany.members = this.selectedCompany.members?.filter(mbr => !uuids.includes(mbr.userUuid)) ?? [];
+        this.updateRolesMembers();
+      }
+      catch (e) {
+        // TODO: toast
+        console.error(e);
+      }
+      finally {
+        this.deletingMember = false;
+      }
+    },
   },
   getters: {
     getCompanies: state => state.companies,
